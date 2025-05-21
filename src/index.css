@@ -17,3 +17,26 @@ body {
   font-size: 1.5rem;
   color: #4f46e5;
 }
+
+.input {
+  @apply rounded-xl border px-4 py-2 focus:outline-blue-400 bg-neutral-50 dark:bg-neutral-800;
+}
+.btn-primary {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition;
+}
+.btn-secondary {
+  @apply px-4 py-2 bg-neutral-200 dark:bg-neutral-700 text-black dark:text-white rounded-xl hover:bg-neutral-300 dark:hover:bg-neutral-600 transition;
+}
+.btn-danger {
+  @apply px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-600 transition;
+}
+.btn-primary {
+  @apply px-5 py-2 bg-blue-600 text-white font-medium rounded-xl shadow hover:bg-blue-700 transition;
+}
+.input {
+  @apply rounded-xl border px-4 py-2 focus:outline-blue-400 bg-neutral-50 dark:bg-neutral-800;
+}
+.btn-primary {
+  @apply px-5 py-2 bg-blue-600 text-white font-semibold rounded-xl shadow hover:bg-blue-700 transition;
+}
+

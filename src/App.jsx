@@ -5,6 +5,12 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useAuth } from './context/AuthContext'
+import GoalsList from "./pages/GoalsList";
+import GoalCreate from "./pages/GoalCreate";
+import GoalDetail from "./pages/GoalDetail";
+
+
+
 
 function App() {
   const { isLoading } = useAuth();
@@ -27,6 +33,12 @@ function App() {
           } 
         />
         <Route path="/" element={<Navigate to="/login" />} />
+
+        <Route path="/goals" element={<ProtectedRoute><GoalsList /></ProtectedRoute>} />
+        <Route path="/goals/new" element={<ProtectedRoute><GoalCreate /></ProtectedRoute>} />
+        <Route path="/goals/:id" element={<ProtectedRoute><GoalDetail /></ProtectedRoute>} />  
+          
+
       </Routes>
     </div>
   )
