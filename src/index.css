@@ -39,4 +39,13 @@ body {
 .btn-primary {
   @apply px-5 py-2 bg-blue-600 text-white font-semibold rounded-xl shadow hover:bg-blue-700 transition;
 }
+.btn-primary {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition;
+}
+.btn-secondary {
+  @apply px-4 py-2 bg-gray-200 rounded-xl hover:bg-gray-300 transition;
+}
+.btn-danger {
+  @apply px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition;
+}
 

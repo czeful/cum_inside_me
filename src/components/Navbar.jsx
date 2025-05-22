@@ -24,9 +24,13 @@ const Navbar = () => {
             >
               Goals
             </Link>
+            <Link to="/profile" className="...">My Profile</Link>
+            <Link to="/friends" className='...' >Friends</Link>
+            <Link to="/friend-requests" className='...'>Friend Requests</Link>
+
           </div>
           <div className="flex items-center">
-            <span className="mr-4 text-gray-700">Welcome, {user?.name || 'User'}</span>
+            <span className="mr-4 text-gray-700">Welcome, {user?.Username || user.Email || 'User'}</span>
             <button
               onClick={logout}
               className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
