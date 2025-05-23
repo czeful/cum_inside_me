@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "../services/api";
 import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 
 // --- Категории с цветами
 const badgeColors = {
@@ -438,6 +439,7 @@ const GoalDetail = () => {
           </div>
         )}
       </div>
+      <Footer/>
     </div>
   );
 };

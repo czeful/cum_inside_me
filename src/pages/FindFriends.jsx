@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { searchUsers, sendFriendRequest, getMyProfile } from "../services/friends";
 import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 
 // Функция для генерации цвета/градиента по имени/email
 const getAvatarGradient = (str) => {
@@ -145,6 +146,7 @@ const FindFriends = () => {
           </ul>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

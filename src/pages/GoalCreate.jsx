@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../services/api";
 import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
+import { generateSteps } from "../services/ai"; // путь подправь если надо
 
 const categories = [
   "Health", "Career", "Education", "Personal", "Finance", "Hobby", "Relationships",
@@ -116,6 +118,7 @@ const GoalCreate = () => {
     collaborators: [],
   });
   const [loading, setLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleStepChange = (idx, value) => {
@@ -132,6 +135,21 @@ const GoalCreate = () => {
     const newSteps = [...form.steps];
     newSteps.splice(idx, 1);
     setForm({ ...form, steps: newSteps });
+  };
+
+  const handleAIGenerate = async () => {
+    setAiLoading(true);
+    try {
+      const steps = await generateSteps({
+        name: form.name,
+        description: form.description,
+        category: form.category
+      });
+      setForm({ ...form, steps }); // Подставить steps в форму
+    } catch {
+      alert("Не удалось получить шаги от AI");
+    }
+    setAiLoading(false);
   };
 
   const handleSubmit = async (e) => {
@@ -227,6 +245,14 @@ const GoalCreate = () => {
             <label className="block mb-1 font-medium text-gray-700">
               Steps <span className="text-xs text-gray-400">(one per field)</span>
             </label>
+            <button
+              type="button"
+              className="px-3 py-1 rounded-lg bg-gradient-to-r from-emerald-400 to-blue-400 text-white font-semibold shadow hover:scale-105 ml-2 text-sm transition"
+              onClick={handleAIGenerate}
+              disabled={aiLoading || !form.name || !form.description || !form.category}
+            >
+              {aiLoading ? "AI генерирует..." : "Сгенерировать steps с помощью AI"}
+            </button>
             {form.steps.length === 0 && (
               <div className="mb-2 text-gray-400">No steps yet</div>
             )}
@@ -269,6 +295,7 @@ const GoalCreate = () => {
           </button>
         </form>
       </div>
+      <Footer/>
     </div>
   );
 };

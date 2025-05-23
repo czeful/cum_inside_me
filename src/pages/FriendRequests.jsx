@@ -4,6 +4,7 @@ import {
   respondToFriendRequest,
 } from "../services/friends";
 import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 
 // Генератор градиента для аватара по имени/ID
 const getAvatarGradient = (str) => {
@@ -121,6 +122,7 @@ const FriendRequests = () => {
           )}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

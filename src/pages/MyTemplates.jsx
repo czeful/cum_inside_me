@@ -4,6 +4,7 @@ import TemplateCard from "./template/TemplateCard";
 import Navbar from "../components/Navbar";
 import TemplateDetails from "./template/TemplateDetailsPage";
 import { useNavigate } from "react-router-dom";
+import Footer from '../components/Footer';
 
 const MyTemplates = () => {
   const [templates, setTemplates] = useState([]);
@@ -86,6 +87,7 @@ const MyTemplates = () => {
           />
         )}
       </div>
+        <Footer/>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getFriends } from "../services/friends";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import Footer from '../components/Footer';
 
 const getAvatarGradient = (str) => {
   // Детерминированный выбор градиента по строке (имя/email)
@@ -117,6 +118,7 @@ const FriendsList = () => {
           </ul>
         )}
       </div>
+      <Footer/>
     </div>
   );
 };

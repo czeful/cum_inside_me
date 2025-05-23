@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getMyProfile } from "../services/friends";
 import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 
-// Градиентная иконка пользователя
+
 const GradientAvatar = ({ name }) => {
   const initial = name ? name[0].toUpperCase() : "U";
-  // Можешь усложнить генератором цвета от имени
+
   return (
     <div className="w-28 h-28 rounded-full flex items-center justify-center text-5xl font-black
       bg-gradient-to-tr from-blue-500 via-fuchsia-400 to-emerald-400 text-white shadow-xl border-8 border-white ring-4 ring-blue-100
@@ -117,6 +118,7 @@ const MyProfile = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

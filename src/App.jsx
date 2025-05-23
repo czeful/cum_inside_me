@@ -11,13 +11,14 @@ import GoalDetail from "./pages/GoalDetail";
 import UserProfile from "./pages/UserProfile";
 import FriendsList from "./pages/FriendsList";
 import FriendRequests from "./pages/FriendRequests";
-import MyProfile from "./pages/MyProfile";
+import MyProfile from "./pages/Myprofile";
 import FindFriends from "./pages/FindFriends";
 import MyTemplates from "./pages/MyTemplates";
 import TemplateCard from "./pages/template/TemplateCard";
 import TemplateCreatePage from "./pages/template/TemplateCreatePage";
 import TemplateDetailsPage from "./pages/template/TemplateDetailsPage";
 import TemplateList from "../src/pages/template/TemplateList";
+// import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function App() {
   const { isLoading } = useAuth();

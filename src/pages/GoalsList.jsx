@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../services/api";
 import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 
 const badgeColors = {
   Health: "bg-emerald-100 text-emerald-600",
@@ -132,6 +133,7 @@ const GoalsList = () => {
           </ul>
         )}
       </div>
+      <Footer/>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/Footer';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -59,6 +60,7 @@ const Register = () => {
   };
 
   return (
+    <div>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-emerald-50 to-fuchsia-100 relative overflow-hidden">
       {/* Декоративные размытия */}
       <div className="absolute w-80 h-80 rounded-full bg-gradient-to-tr from-blue-400 via-fuchsia-300 to-emerald-200 opacity-30 blur-2xl -top-32 -left-24 pointer-events-none" />
@@ -184,6 +186,8 @@ const Register = () => {
           </form>
         </div>
       </div>
+      </div>
+      <Footer/>
     </div>
   );
 };
