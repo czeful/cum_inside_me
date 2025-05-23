@@ -18,10 +18,14 @@ import TemplateCard from "./pages/template/TemplateCard";
 import TemplateCreatePage from "./pages/template/TemplateCreatePage";
 import TemplateDetailsPage from "./pages/template/TemplateDetailsPage";
 import TemplateList from "../src/pages/template/TemplateList";
+import AssistantChat from "./components/AssistantChat";
 // import AdminDashboard from "./pages/admin/AdminDashboard";
 
+
 function App() {
-  const { isLoading } = useAuth();
+   const { isLoading, user } = useAuth();
+   console.log('user из AuthContext:', user);
+
 
   if (isLoading) {
     return <div className="loading">Loading...</div>;
@@ -139,6 +143,7 @@ function App() {
               <TemplateDetailsPage />
             </ProtectedRoute>} />
       </Routes>
+      <AssistantChat user={user}/>
     </div>
   );
 }

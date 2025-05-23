@@ -1,6 +1,6 @@
 // src/services/ai.js
 
-const OPENROUTER_API_KEY = "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"; // сюда подставь свой OpenRouter ключ
+const OPENROUTER_API_KEY = "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"; // сюда подставь свой OpenRouter ключ
 
 export async function generateSteps({ name, description, category }) {
   const prompt = `
