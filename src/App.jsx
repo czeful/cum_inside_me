@@ -15,8 +15,8 @@ import MyProfile from "./pages/MyProfile";
 import FindFriends from "./pages/FindFriends";
 import MyTemplates from "./pages/MyTemplates";
 import TemplateCard from "./pages/template/TemplateCard";
-import TemplateCreateModal from "../src/pages/template/TemplateCreateModal";
-import TemplateDetails from "../src/pages/template/TemplateDetails";
+import TemplateCreatePage from "./pages/template/TemplateCreatePage";
+import TemplateDetailsPage from "./pages/template/TemplateDetailsPage";
 import TemplateList from "../src/pages/template/TemplateList";
 
 function App() {
@@ -106,6 +106,37 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Главная страница шаблонов с табами */}
+        <Route
+          path="/templates"
+          element={
+            <ProtectedRoute>
+              <TemplateList />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* (опционально) — отдельные страницы если нужны */}
+        <Route
+          path="/templates/create"
+          element={
+            <ProtectedRoute>
+              <TemplateCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/templates/my"
+          element={
+            <ProtectedRoute>
+              <MyTemplates />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/templates/:id" element={<ProtectedRoute>
+              <TemplateDetailsPage />
+            </ProtectedRoute>} />
       </Routes>
     </div>
   );
