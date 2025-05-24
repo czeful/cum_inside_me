@@ -1,12 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 
-// OpenRouter API KEY (замени на свой)
-const OPENROUTER_API_KEY = "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"; // Пример: or-xxxxxx...
+// OpenRouter API KEY (replace with your own)
+const OPENROUTER_API_KEY = "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";
 
-// Функция для получения имени пользователя, если не передано в пропсах
+// Function to get the username if not passed as prop
 const getUserName = () => {
-  // Пример: если имя сохранено в localStorage
-  // Ты можешь заменить на другую логику
   try {
     const user = JSON.parse(localStorage.getItem("user"));
     return user?.name || "";
@@ -16,41 +14,40 @@ const getUserName = () => {
 };
 
 export default function AssistantChat({ user }) {
-  // user: { name: "Имя" } — передавай из своего состояния/контекста/props
+  // user: { name: "Name" } — pass from your state/context/props
 
-const username = user?.name || user?.Name || user?.username || user?.Username || user?.email || user?.Email || getUserName();
+  const username = user?.name || user?.Name || user?.username || user?.Username || user?.email || user?.Email || getUserName();
 
-
-  // Показывать виджет только если пользователь есть и имя указано
+  // Show widget only if user and username exist
   if (!username) return null;
 
-  // system prompt для персонализации
+  // system prompt for personalization
   const initialMessages = [
     {
       role: "system",
-      content: `Пользователь, с которым ты общаешься, зовут: ${username}. Обращайся к нему по имени и учитывай, что он работает с системой целей.`
+      content: `The user's name is: ${username}. Address them by name and remember they're working with a goals management system.`
     },
     {
       role: "assistant",
-      content: `Привет, ${username}! Я твой AI-ассистент. Готов помочь с целями, планированием, шагами или любыми вопросами.`
+      content: `Hello, ${username}! I am your AI assistant. Ready to help with your goals, planning, steps, or any questions.`
     }
   ];
 
-  const [open, setOpen] = useState(false); // Открыт или свернут чат
+  const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Скролл вниз при каждом новом сообщении
+  // Auto-scroll on every new message or open
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, open]);
 
-  // Переключение (свернуть/развернуть)
+  // Open/close chat
   const handleToggle = () => setOpen(v => !v);
 
-  // Отправка сообщения
+  // Send message
   const sendMessage = async () => {
     if (!input.trim()) return;
     const newMessages = [...messages, { role: "user", content: input }];
@@ -68,7 +65,7 @@ const username = user?.name || user?.Name || user?.username || user?.Username ||
           "X-Title": "AchievementManager"
         },
         body: JSON.stringify({
-          model: "openai/gpt-3.5-turbo", // можно заменить на другую модель
+          model: "openai/gpt-3.5-turbo",
           messages: newMessages.map(({ role, content }) => ({ role, content })),
           temperature: 0.7,
         }),
@@ -76,21 +73,21 @@ const username = user?.name || user?.Name || user?.username || user?.Username ||
 
       if (!res.ok) {
         const errorText = await res.text();
-        setMessages([...newMessages, { role: "assistant", content: "AI недоступен: " + errorText }]);
+        setMessages([...newMessages, { role: "assistant", content: "AI unavailable: " + errorText }]);
       } else {
         const data = await res.json();
-        const answer = data.choices?.[0]?.message?.content || "Нет ответа от AI.";
+        const answer = data.choices?.[0]?.message?.content || "No response from AI.";
         setMessages([...newMessages, { role: "assistant", content: answer }]);
       }
     } catch (e) {
-      setMessages([...newMessages, { role: "assistant", content: "Ошибка: " + e.message }]);
+      setMessages([...newMessages, { role: "assistant", content: "Error: " + e.message }]);
     }
     setLoading(false);
   };
 
   return (
     <>
-      {/* Кнопка-иконка — открыть чат */}
+      {/* Icon button — open chat */}
       {!open && (
         <button
           onClick={handleToggle}
@@ -103,12 +100,12 @@ const username = user?.name || user?.Name || user?.username || user?.Username ||
             boxShadow: "0 4px 32px #0003",
             cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center"
           }}
-          title="Открыть AI-ассистент"
+          title="Open AI Assistant"
         >
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="18" fill="#fff" /><path d="M12 24v-2a4 4 0 0 1 8 0v2" stroke="#32d0ae" strokeWidth="2"/><circle cx="16" cy="14" r="4" stroke="#56b6f8" strokeWidth="2"/><rect x="23" y="18" width="5" height="7" rx="2" fill="#32d0ae"/></svg>
         </button>
       )}
-      {/* Сам чат */}
+      {/* Chat window */}
       {open && (
         <div style={{
           position: "fixed",
@@ -144,7 +141,7 @@ const username = user?.name || user?.Name || user?.username || user?.Username ||
                 marginLeft: 12,
                 lineHeight: 1
               }}
-              title="Свернуть"
+              title="Minimize"
             >
               ×
             </button>
@@ -181,7 +178,7 @@ const username = user?.name || user?.Name || user?.username || user?.Username ||
             <input
               type="text"
               value={input}
-              placeholder="Напиши вопрос..."
+              placeholder="Type your question..."
               disabled={loading}
               style={{
                 flex: 1,

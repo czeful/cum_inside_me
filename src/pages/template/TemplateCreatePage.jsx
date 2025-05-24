@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "../../services/api";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { generateSteps } from "../../services/ai"; // Adjust the path if needed
 
 const categories = [
   "Health", "Career", "Education", "Personal", "Finance", "Hobby", "Relationships"
@@ -18,6 +19,7 @@ const TemplateCreatePage = ({ onCreated }) => {
   });
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
 
   const handleStepChange = (idx, value) => {
     const newSteps = [...form.steps];
@@ -33,6 +35,21 @@ const TemplateCreatePage = ({ onCreated }) => {
     const newSteps = [...form.steps];
     newSteps.splice(idx, 1);
     setForm({ ...form, steps: newSteps });
+  };
+
+  const handleAIGenerate = async () => {
+    setAiLoading(true);
+    try {
+      const steps = await generateSteps({
+        title: form.title,
+        description: form.description,
+        category: form.category
+      });
+      setForm({ ...form, steps }); // Overwrite steps with generated
+    } catch {
+      setMsg("AI failed to generate steps.");
+    }
+    setAiLoading(false);
   };
 
   const handleSubmit = async (e) => {
@@ -55,13 +72,13 @@ const TemplateCreatePage = ({ onCreated }) => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      setMsg("Шаблон успешно создан!");
+      setMsg("Template created successfully!");
       setTimeout(() => {
         navigate("/templates/my");
         if (onCreated) onCreated();
       }, 1500);
     } catch (err) {
-      setMsg("Ошибка создания шаблона");
+      setMsg("Failed to create template.");
     } finally {
       setLoading(false);
     }
@@ -70,7 +87,7 @@ const TemplateCreatePage = ({ onCreated }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-emerald-50 to-fuchsia-100">
       <Navbar />
-      {/* Фоновая декоративная "пятнистость" */}
+      {/* Decorative background */}
       <div className="absolute w-80 h-80 rounded-full bg-gradient-to-tr from-blue-300 via-fuchsia-100 to-emerald-200 opacity-20 blur-2xl -top-32 -left-24 pointer-events-none" />
       <div className="absolute w-96 h-96 rounded-full bg-gradient-to-tr from-blue-100 via-emerald-200 to-fuchsia-300 opacity-10 blur-2xl -bottom-36 -right-28 pointer-events-none" />
       
@@ -85,35 +102,35 @@ const TemplateCreatePage = ({ onCreated }) => {
               </svg>
             </div>
             <h3 className="text-3xl font-extrabold text-blue-800 tracking-tight mb-2 text-center">
-              Создать новый шаблон
+              Create New Template
             </h3>
             <div className="text-gray-400 text-base text-center mb-1">
-              Создай структуру, которую смогут использовать другие участники. <br />
-              <span className="text-emerald-500 font-semibold">Публичные шаблоны</span> доступны всем.
+              Create a structure that others can use.<br />
+              <span className="text-emerald-500 font-semibold">Public templates</span> are available to everyone.
             </div>
           </div>
 
           <form className="space-y-7" onSubmit={handleSubmit}>
-            {/* Секция о шаблоне */}
+            {/* Template Info Section */}
             <section className="border-b pb-7">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
                 <div>
                   <label className="font-medium flex items-center gap-2 mb-1 text-gray-700">
                     <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="7" width="12" height="8" rx="3" /><path d="M7 7V5a2 2 0 1 1 4 0v2" /></svg>
-                    Название шаблона
+                    Template Name
                   </label>
                   <input
                     className="w-full rounded-xl px-4 py-3 border border-blue-200 placeholder-gray-400 focus:outline-none focus:border-blue-500 transition"
                     value={form.title}
                     onChange={e => setForm({ ...form, title: e.target.value })}
                     required
-                    placeholder="Придумай короткое название"
+                    placeholder="Short and clear name"
                   />
                 </div>
                 <div>
                   <label className="font-medium flex items-center gap-2 mb-1 text-gray-700">
                     <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="9" r="7" /><path d="M6 14v-1a3 3 0 0 1 6 0v1" /></svg>
-                    Категория
+                    Category
                   </label>
                   <select
                     className="w-full rounded-xl px-4 py-3 border border-blue-200 focus:outline-none focus:border-blue-500 transition"
@@ -121,7 +138,7 @@ const TemplateCreatePage = ({ onCreated }) => {
                     onChange={e => setForm({ ...form, category: e.target.value })}
                     required
                   >
-                    <option value="">Выбери категорию</option>
+                    <option value="">Select category</option>
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
@@ -131,28 +148,28 @@ const TemplateCreatePage = ({ onCreated }) => {
               <div className="mt-7">
                 <label className="font-medium flex items-center gap-2 mb-1 text-gray-700">
                   <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h10M4 10h10M4 14h10" /></svg>
-                  Описание
+                  Description
                 </label>
                 <textarea
                   className="w-full rounded-xl px-4 py-3 border border-blue-200 placeholder-gray-400 focus:outline-none focus:border-blue-500 transition min-h-[80px]"
                   value={form.description}
                   onChange={e => setForm({ ...form, description: e.target.value })}
                   required
-                  placeholder="Кратко опиши для чего этот шаблон, кому он будет полезен"
+                  placeholder="Briefly describe the template purpose and who will benefit from it"
                 />
               </div>
             </section>
 
-            {/* Секция с шагами */}
+            {/* Steps Section */}
             <section className="pt-2">
               <label className="font-medium flex items-center gap-2 mb-3 text-gray-700">
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="9" r="8"/><path d="M9 5v4l3 2" /></svg>
-                Шаги (инструкция или структура)
-                <span className="text-xs text-gray-400">(каждый шаг отдельной строкой)</span>
+                Steps (instructions or structure)
+                <span className="text-xs text-gray-400">(each step on a separate line)</span>
               </label>
               <div className="space-y-2">
                 {form.steps.length === 0 && (
-                  <div className="mb-2 text-gray-400">Нет шагов</div>
+                  <div className="mb-2 text-gray-400">No steps yet</div>
                 )}
                 {form.steps.map((step, idx) => (
                   <div className="flex items-center gap-2" key={idx}>
@@ -161,7 +178,7 @@ const TemplateCreatePage = ({ onCreated }) => {
                     </span>
                     <input
                       className="flex-1 rounded-lg px-4 py-2 border border-blue-200 focus:outline-none focus:border-blue-500 transition"
-                      placeholder={`Шаг ${idx + 1}`}
+                      placeholder={`Step ${idx + 1}`}
                       value={step}
                       onChange={e => handleStepChange(idx, e.target.value)}
                       required
@@ -170,19 +187,30 @@ const TemplateCreatePage = ({ onCreated }) => {
                       type="button"
                       className="text-red-500 hover:text-red-700 px-2 py-1 rounded"
                       onClick={() => handleRemoveStep(idx)}
-                      title="Удалить шаг"
+                      title="Delete step"
                     >🗑️</button>
                   </div>
                 ))}
               </div>
-              <button
-                type="button"
-                className="mt-3 px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold shadow hover:scale-105 transition"
-                onClick={handleAddStep}
-              >+ Добавить шаг</button>
+              {/* Buttons: AI Generate and Add Step (responsive) */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between mt-4 gap-3">
+                <button
+                  type="button"
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-blue-500 text-white font-bold shadow hover:scale-105 transition w-full sm:w-auto"
+                  onClick={handleAddStep}
+                >+ Add Step</button>
+                <button
+                  type="button"
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-fuchsia-400 to-blue-400 text-white font-semibold shadow hover:scale-105 transition w-full sm:w-auto"
+                  onClick={handleAIGenerate}
+                  disabled={aiLoading || !form.title || !form.description || !form.category}
+                >
+                  {aiLoading ? "AI generating..." : "Generate by AI"}
+                </button>
+              </div>
             </section>
 
-            {/* Опции */}
+            {/* Options */}
             <div className="flex items-center gap-3 mt-2">
               <input
                 type="checkbox"
@@ -192,7 +220,7 @@ const TemplateCreatePage = ({ onCreated }) => {
                 onChange={e => setForm({ ...form, public: e.target.checked })}
               />
               <label htmlFor="public" className="text-sm text-gray-700 font-medium cursor-pointer select-none">
-                Публичный шаблон — будет виден всем пользователям
+                Public template - will be visible to all users
               </label>
             </div>
 
@@ -209,9 +237,9 @@ const TemplateCreatePage = ({ onCreated }) => {
                     <circle cx="11" cy="11" r="9" opacity="0.2"/>
                     <path d="M11 2a9 9 0 0 1 9 9" />
                   </svg>
-                  Создание...
+                  Creating...
                 </span>
-              ) : "Создать шаблон"}
+              ) : "Create template"}
             </button>
             {msg && <div className="mt-4 text-center text-lg text-emerald-600 animate-fadeIn">{msg}</div>}
           </form>

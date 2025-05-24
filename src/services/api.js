@@ -27,6 +27,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle unauthorized errors (e.g., token expired)
       localStorage.removeItem('token');
+      consle.log('your token' + token)
       window.location.href = '/login';
     }
     return Promise.reject(error);

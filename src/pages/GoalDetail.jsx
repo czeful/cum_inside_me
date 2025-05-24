@@ -354,7 +354,7 @@ const GoalDetail = () => {
                 />
               </div>
               <span className="text-sm text-gray-600">
-                {completedSteps} из {totalSteps} шагов ({percent}%) выполнено
+                {completedSteps} from {totalSteps} steps ({percent}%)  done
               </span>
             </div>
             {/* Steps */}

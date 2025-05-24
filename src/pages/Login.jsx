@@ -66,12 +66,12 @@ const Login = () => {
             </svg>
           </div>
           <h2 className="text-center text-3xl font-extrabold text-blue-900 mb-2 tracking-tight">
-            Вход в аккаунт
+            Log in to your account
           </h2>
           <p className="text-center text-base text-gray-500 mb-5">
-            Нет аккаунта?{' '}
+            Don't have an account?{' '}
             <Link to="/register" className="font-bold text-blue-600 hover:text-blue-700 underline transition">
-              Зарегистрироваться
+              Register
             </Link>
           </p>
 
@@ -108,7 +108,7 @@ const Login = () => {
             <div className="flex flex-col gap-1">
               <label htmlFor="password" className="font-semibold text-gray-700 flex items-center gap-2">
                 <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="8" width="10" height="6" rx="3"/><path d="M7 8V6a2 2 0 1 1 4 0v2"/></svg>
-                Пароль
+                Password
               </label>
               <input
                 id="password"
@@ -131,11 +131,10 @@ const Login = () => {
                 className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
               <label htmlFor="remember-me" className="block text-sm text-gray-600">
-                Запомнить меня
+                Remember me
               </label>
               <span className="ml-auto text-sm text-gray-400 hover:text-blue-600 transition cursor-pointer">
-                {/* Можно сделать ссылку на reset */}
-                Забыли пароль?
+                Forgot password?
               </span>
             </div>
             <button
@@ -150,9 +149,9 @@ const Login = () => {
                     <circle cx="11" cy="11" r="9" opacity="0.2"/>
                     <path d="M11 2a9 9 0 0 1 9 9" />
                   </svg>
-                  Вход...
+                  Logging in...
                 </span>
-              ) : "Войти"}
+              ) : "Log in"}
             </button>
           </form>
         </div>

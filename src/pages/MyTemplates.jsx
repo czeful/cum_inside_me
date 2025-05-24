@@ -33,10 +33,10 @@ const MyTemplates = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
           <div>
             <h2 className="text-4xl font-extrabold text-blue-800 tracking-tight mb-1">
-              Мои шаблоны
+              My templates
             </h2>
             <div className="text-gray-500 text-base">
-              Все ваши созданные шаблоны целей в одном месте
+              All your created goal templates in one place
             </div>
           </div>
           <button
@@ -53,16 +53,16 @@ const MyTemplates = () => {
             >
               <path d="M12 5v14M5 12h14" />
             </svg>
-            Новый шаблон
+            New template
           </button>
         </div>
 
         {/* Template List */}
         {templates.length === 0 ? (
           <div className="text-center text-gray-400 py-24 text-xl rounded-2xl bg-white/50 shadow-inner">
-            У вас нет своих шаблонов.
+            You don't have your own templates.
             <br />
-            <span className="text-blue-400">Создайте свой первый шаблон!</span>
+            <span className="text-blue-400">Create new template!</span>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

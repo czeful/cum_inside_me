@@ -20,7 +20,7 @@ import TemplateDetailsPage from "./pages/template/TemplateDetailsPage";
 import TemplateList from "../src/pages/template/TemplateList";
 import AssistantChat from "./components/AssistantChat";
 // import AdminDashboard from "./pages/admin/AdminDashboard";
-
+import ChatPage from './pages/ChatPage'
 
 function App() {
    const { isLoading, user } = useAuth();
@@ -142,6 +142,7 @@ function App() {
         <Route path="/templates/:id" element={<ProtectedRoute>
               <TemplateDetailsPage />
             </ProtectedRoute>} />
+            <Route path="/chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
       </Routes>
       <AssistantChat user={user}/>
     </div>

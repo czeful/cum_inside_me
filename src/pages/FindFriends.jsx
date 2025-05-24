@@ -36,7 +36,7 @@ const FindFriends = () => {
       const res = await searchUsers(search);
       setUsers(res.data);
     } catch (err) {
-      alert("Ошибка поиска пользователей");
+      alert("Error searching for users");
     }
     setLoading(false);
   };
@@ -47,7 +47,7 @@ const FindFriends = () => {
       await sendFriendRequest(userId);
       setSuccessId(userId);
     } catch (err) {
-      alert("Не удалось отправить заявку: " + (err.response?.data || err.message));
+      alert("Failed to submit request: " + (err.response?.data || err.message));
     }
     setSendingId(null);
   };
@@ -63,13 +63,13 @@ const FindFriends = () => {
               <path d="M18 16v-2a4 4 0 0 0-8 0v2" />
               <circle cx="14" cy="10" r="3" />
             </svg>
-            Найти друзей
+            Find Friends
           </h2>
           <form onSubmit={handleSearch} className="flex gap-2 mb-8 justify-center">
             <input
               className="flex-1 min-w-0 rounded-xl px-5 py-3 border border-blue-200 bg-white focus:outline-none focus:border-blue-500 text-lg shadow transition"
               type="text"
-              placeholder="Имя или email пользователя"
+              placeholder="Name or email of user "
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -78,13 +78,13 @@ const FindFriends = () => {
               disabled={loading}
               type="submit"
             >
-              {loading ? "Поиск..." : (
+              {loading ? "Search..." : (
                 <>
                   <svg width="21" height="21" fill="none" stroke="currentColor" strokeWidth="2" className="inline-block mr-1">
                     <circle cx="10" cy="10" r="8" />
                     <path d="M15 15l4 4" />
                   </svg>
-                  Искать
+                  Search
                 </>
               )}
             </button>
@@ -92,7 +92,7 @@ const FindFriends = () => {
 
           {users.length === 0 && !loading && (
             <div className="text-center text-gray-400 py-20 text-lg rounded-2xl bg-white/60 shadow-inner">
-              Никого не найдено
+              No one found
             </div>
           )}
 
@@ -134,10 +134,10 @@ const FindFriends = () => {
                       disabled={sendingId === u.ID || successId === u.ID}
                     >
                       {successId === u.ID
-                        ? (<><svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M4 10l4 4 6-8" /></svg>Запрос отправлен</>)
+                        ? (<><svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M4 10l4 4 6-8" /></svg>Request sent</>)
                         : sendingId === u.ID
                         ? "Отправка..."
-                        : (<><svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M12 6v6m-3-3h6" /></svg>Добавить в друзья</>)
+                        : (<><svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M12 6v6m-3-3h6" /></svg>Add to friends</>)
                       }
                     </button>
                   </li>

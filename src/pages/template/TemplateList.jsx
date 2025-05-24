@@ -42,10 +42,10 @@ const TemplateList = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      setCopyMsg("Шаблон успешно добавлен в ваши цели!");
+      setCopyMsg("Template successfully added to your goals!");
       setTimeout(() => setCopyMsg(""), 3000);
     } catch {
-      setCopyMsg("Ошибка копирования!");
+      setCopyMsg("Copying failed!");
       setTimeout(() => setCopyMsg(""), 3000);
     }
   };
@@ -53,18 +53,18 @@ const TemplateList = () => {
   const Navbar = () => {
     const { user, logout } = useAuth();
     const location = useLocation();
-  
+
     return (
       <nav className="relative z-50 shadow-sm bg-white/95 backdrop-blur-md border-b border-transparent">
-        {/* Градиентная нижняя граница */}
+        {/* Gradient bottom border */}
         <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-blue-500 via-emerald-400 to-fuchsia-400 opacity-90 rounded-t-xl pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
           <div className="flex justify-between h-16 items-center">
-            {/* Логотип и навигация */}
+            {/* Logo and navigation */}
             <div className="flex items-center space-x-6">
-              {/* Логотип */}
+              {/* Logo */}
               <Link to="/dashboard" className="flex items-center gap-2 mr-2 select-none">
-                {/* Иконка */}
+                {/* Icon */}
                 <span className="inline-flex items-center justify-center h-10 w-10 bg-gradient-to-tr from-blue-500 to-emerald-400 rounded-full shadow text-white text-xl font-black">
                   <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2">
                     <circle cx="14" cy="14" r="10" strokeOpacity=".2"/>
@@ -75,7 +75,7 @@ const TemplateList = () => {
                   Achvmnt<span className="text-blue-500">.AI</span>
                 </span>
               </Link>
-              {/* Навигационные ссылки */}
+              {/* Navigation links */}
               <div className="hidden md:flex items-center gap-2">
                 {navLinks.map(link => (
                   <Link
@@ -96,17 +96,17 @@ const TemplateList = () => {
             </div>
             {/* User Block */}
             <div className="flex items-center gap-4">
-              {/* Приветствие и аватар */}
+              {/* Greeting and avatar */}
               <div className="flex items-center gap-2 pr-2">
                 <span className="hidden sm:block text-sm text-gray-600 font-semibold">
                   {user?.Username || user?.Email?.split("@")[0] || 'User'}
                 </span>
-                {/* Фейковый аватар с инициалами */}
+                {/* Avatar with initials */}
                 <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-tr from-blue-400 via-fuchsia-400 to-emerald-400 text-white font-bold shadow">
                   {(user?.Username || user?.Email || "U").slice(0,2).toUpperCase()}
                 </span>
               </div>
-              {/* Кнопка выхода */}
+              {/* Logout button */}
               <button
                 onClick={logout}
                 className="inline-flex items-center gap-1 px-4 py-2 rounded-xl bg-gradient-to-tr from-red-500 via-pink-500 to-orange-400 text-white font-bold shadow-md hover:scale-105 hover:shadow-xl transition"
@@ -129,13 +129,12 @@ const TemplateList = () => {
       <div className="max-w-4xl mx-auto mt-10">
         <div className="flex items-center justify-between mb-7">
           <h2 className="text-3xl font-bold text-blue-700">
-            Публичные шаблоны
           </h2>
         </div>
         {copyMsg && <div className="mb-4 text-green-700">{copyMsg}</div>}
         {templates.length === 0 ? (
           <div className="text-center text-gray-400 py-12">
-            Публичных шаблонов пока нет.
+            No public templates yet.
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

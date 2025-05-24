@@ -36,9 +36,9 @@ const FriendsList = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
           <div>
             <h2 className="text-3xl font-extrabold text-blue-800 tracking-tight mb-1">
-              Мои друзья
+              My Friends
             </h2>
-            <div className="text-gray-500 text-base">Список всех ваших друзей</div>
+            <div className="text-gray-500 text-base">List of your frineds</div>
           </div>
           <Link
             to="/find-friend"
@@ -48,29 +48,30 @@ const FriendsList = () => {
               <circle cx="11" cy="11" r="9" />
               <path d="M11 7v8M7 11h8" strokeLinecap="round" />
             </svg>
-            Добавить друга
+              Add Friends
           </Link>
         </div>
 
         {(friends?.length === 0) ? (
           <div className="text-center text-gray-400 py-24 text-xl rounded-2xl bg-white/50 shadow-inner">
-            У вас пока нет друзей.<br/>
+            You don't have any friends yet..<br/>
             <Link to="/find-friend" className="text-blue-600 hover:underline font-semibold">
-              Найти друзей
+              Find friends
             </Link>
           </div>
         ) : (
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-7">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-7"> 
             {friends.map(f => {
               const key = typeof f === "string" ? f : f._id || f.id;
               const name = typeof f === "string"
                 ? f
                 : f.username || f.name || f.email?.split("@")[0] || "Без имени";
+                // Тута мы выводим данные наших друзей
               const email = f.email || "";
               const initial = name ? name[0].toUpperCase() : "F";
               const avatarGradient = getAvatarGradient(name + email);
 
-              // fake online status (можешь переделать под реальный)
+              
               const online = (key.charCodeAt(0) % 3 !== 0);
 
               return (
@@ -100,7 +101,7 @@ const FriendsList = () => {
                       )}
                       <div className="flex items-center gap-2 mt-1">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${online ? "bg-emerald-100 text-emerald-600" : "bg-gray-100 text-gray-400"}`}>
-                          {online ? "В сети" : "Не в сети"}
+                          {online ? "Online" : "Offline"}
                         </span>
                       </div>
                     </div>

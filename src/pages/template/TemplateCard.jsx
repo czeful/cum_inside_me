@@ -48,12 +48,12 @@ const TemplateCard = ({ template, onCopy, onView, className }) => {
       {/* Шаги и описание */}
       <div className="flex items-center gap-2 mb-1 text-xs z-10">
         <span className="px-2 py-0.5 rounded-lg bg-blue-50 text-blue-500 font-semibold">
-          {stepsCount} шагов
+          {stepsCount} Steps
         </span>
         {template.public && (
           <span className="inline-flex items-center px-2 py-0.5 ml-1 rounded-lg bg-emerald-50 text-emerald-500 font-semibold">
             <svg width="13" height="13" fill="currentColor" className="mr-1"><circle cx="6.5" cy="6.5" r="6.5" /></svg>
-            Публичный
+            Public
           </span>
         )}
       </div>
@@ -65,7 +65,7 @@ const TemplateCard = ({ template, onCopy, onView, className }) => {
 
       {/* Действия */}
       <div className="flex items-center gap-2 mt-auto z-10">
-        <button
+        {/* <button
           className="flex-1 min-w-0 flex items-center justify-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-blue-500 to-emerald-500 text-white text-xs font-bold shadow-md
             hover:scale-[1.04] hover:shadow-lg active:scale-100 transition-all duration-150 group truncate"
           onClick={() => onCopy(template)}
@@ -75,8 +75,8 @@ const TemplateCard = ({ template, onCopy, onView, className }) => {
             <rect x="2" y="2" width="10" height="10" rx="2"/>
             <path d="M5.5 5.5h3v3h-3z"/>
           </svg>
-          <span className="truncate">Скопировать</span>
-        </button>
+          <span className="truncate">Copy</span>
+        </button> */}
         <button
           className="flex-1 min-w-0 flex items-center justify-center gap-1 px-2 py-1 rounded-lg bg-white border border-blue-200 text-blue-600 text-xs font-bold shadow-sm
             hover:bg-blue-50 active:bg-blue-100 transition-all duration-150 truncate"
@@ -87,7 +87,7 @@ const TemplateCard = ({ template, onCopy, onView, className }) => {
             <circle cx="7" cy="7" r="6"/>
             <circle cx="7" cy="7" r="2"/>
           </svg>
-          <span className="truncate">Подробнее</span>
+          <span className="truncate">Read more</span>
         </button>
       </div>
     </div>

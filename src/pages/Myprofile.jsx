@@ -11,7 +11,8 @@ const GradientAvatar = ({ name }) => {
   return (
     <div className="w-28 h-28 rounded-full flex items-center justify-center text-5xl font-black
       bg-gradient-to-tr from-blue-500 via-fuchsia-400 to-emerald-400 text-white shadow-xl border-8 border-white ring-4 ring-blue-100
-      absolute -top-14 left-1/2 -translate-x-1/2 select-none
+      absolute left-1/2 -translate-x-1/2 top-0 -translate-y-1/2
+      select-none
       ">
       {initial}
     </div>
@@ -40,7 +41,7 @@ const MyProfile = () => {
       <div className="max-w-2xl mx-auto mt-16 px-4">
         {/* Декоративная полупрозрачная фигура */}
         <div className="absolute -top-24 right-0 w-64 h-64 rounded-full bg-gradient-to-br from-blue-200/50 via-emerald-200/40 to-fuchsia-200/30 pointer-events-none blur-2xl" />
-        <div className="relative flex flex-col items-center bg-white rounded-3xl shadow-2xl py-16 px-8 border border-blue-100 overflow-hidden">
+        <div className="relative flex flex-col items-center bg-white rounded-3xl shadow-2xl pt-20 px-8 border border-blue-100 overflow-visible">
           {/* Аватар с градиентом */}
           <GradientAvatar name={user.Username} />
           {/* Имя/email/роль */}
@@ -55,11 +56,11 @@ const MyProfile = () => {
           {/* Info */}
           <div className="mt-10 w-full grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
             <div className="flex flex-col gap-1 rounded-xl p-4 bg-gradient-to-tr from-blue-50 via-white to-emerald-50 shadow-inner border">
-              <span className="font-semibold text-gray-700">ID пользователя:</span>
+              <span className="font-semibold text-gray-700">User ID:</span>
               <span className="text-blue-700 font-mono">{user._id || user.id || user.ID}</span>
             </div>
             <div className="flex flex-col gap-1 rounded-xl p-4 bg-gradient-to-tr from-blue-50 via-white to-fuchsia-50 shadow-inner border">
-              <span className="font-semibold text-gray-700">Дата регистрации:</span>
+              <span className="font-semibold text-gray-700">Date of registration:</span>
               <span className="text-gray-600">{formatDate(user.CreatedAt)}</span>
             </div>
           </div>
@@ -68,7 +69,7 @@ const MyProfile = () => {
           <div className="mt-8 w-full bg-blue-50 rounded-xl p-6 shadow-inner border">
             <span className="font-semibold text-blue-700 text-lg flex items-center gap-2 mb-3">
               <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="9" /><path d="M8 16v-1a3 3 0 0 1 6 0v1"/><circle cx="11" cy="9" r="2.5"/></svg>
-              Друзья
+              Friends
             </span>
             {user.friends && user.friends.length > 0 ? (
               <ul className="flex flex-wrap gap-3 mt-1">
@@ -103,7 +104,7 @@ const MyProfile = () => {
                 <circle cx="10" cy="10" r="8" />
                 <path d="M10 6v8M6 10h8" />
               </svg>
-              Найти друга
+              Find friends
             </button>
             <button
               className="flex-1 px-6 py-3 rounded-xl bg-gradient-to-tr from-fuchsia-500 to-blue-600 text-white font-bold shadow-lg hover:scale-105 transition"
@@ -113,7 +114,7 @@ const MyProfile = () => {
                 <rect x="3" y="5" width="14" height="10" rx="2" />
                 <path d="M7 9h6" />
               </svg>
-              Мои шаблоны
+              My Templates
             </button>
           </div>
         </div>

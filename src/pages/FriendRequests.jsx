@@ -54,7 +54,7 @@ const FriendRequests = () => {
         <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 p-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-3">
             <h2 className="text-3xl font-extrabold text-blue-800 tracking-tight">
-              Заявки в друзья
+              Friend requests
             </h2>
             <span className="text-blue-600 font-semibold text-lg">
               {safeRequests.length > 0
@@ -65,7 +65,7 @@ const FriendRequests = () => {
 
           {safeRequests.length === 0 ? (
             <div className="text-center text-gray-400 py-20 text-lg rounded-2xl bg-white/50 shadow-inner">
-              Нет новых заявок на добавление в друзья.
+              There are no new friend requests.
             </div>
           ) : (
             <ul className="space-y-6">
@@ -105,14 +105,14 @@ const FriendRequests = () => {
                         onClick={() => accept(req._id || req.id)}
                       >
                         <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M4 10l4 4 6-8" /></svg>
-                        Принять
+                        Accept
                       </button>
                       <button
                         className="px-4 py-2 rounded-xl bg-gradient-to-tr from-pink-400 to-orange-500 text-white font-bold shadow hover:scale-105 transition"
                         onClick={() => reject(req._id || req.id)}
                       >
                         <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M6 6l6 6M6 12L12 6" /></svg>
-                        Отклонить
+                        Reject
                       </button>
                     </div>
                   </li>
