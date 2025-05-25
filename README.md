@@ -1,19 +1,25 @@
-# React + Vite
+Frontend Application for Diploma Project
+Description:
+This is our frontend application for the diploma project. Built using React + Vite.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Setup Instructions:
 
-Currently, two official plugins are available:
+Backend Setup:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Before running the frontend, ensure the backend is installed and running.
 
-## Expanding the ESLint configuration
+Follow the backend setup instructions using the link below.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Install Dependencies:
 
+Run npm i to install all required packages.
 
+Run the Project:
 
+Start the application with npm run dev.
 
+Links:
 
-https://github.com/Dias221467/Achievemenet_Manager/tree/main ббббэээээээээээээк
+https://github.com/Dias221467/Achievemenet_Manager  ----- back
+https://openrouter.ai/settings/keys  ---- api keys to ai
 
