@@ -1,25 +1,18 @@
-Frontend Application for Diploma Project
-Description:
-This is our frontend application for the diploma project. Built using React + Vite.
+КОРОЧЕ ЭТО ФРОНТ 
 
-Setup Instructions:
+А это БЭК --- https://github.com/Dias221467/Achievemenet_Manager.git
+API_KEY --- https://openrouter.ai/settings/keys
 
-Backend Setup:
+Чекаой как быстро запустить: 
 
-Before running the frontend, ensure the backend is installed and running.
+Скачай nodeJS и go
 
-Follow the backend setup instructions using the link below.
+git clone https://github.com/Dias221467/Achievemenet_Manager.git  (бэк)
+git clone https://github.com/czeful/cum_inside_me.git   (фронт)
 
-Install Dependencies:
+npm i  - Тип что бы скачать все что должно быть
+npm run dev -- что бы запустить код фронта 
+go run main.go  --- что бы запустить код бэка  (в бэке поиграйся с мангоДБ нужно)
 
-Run npm i to install all required packages.
-
-Run the Project:
-
-Start the application with npm run dev.
-
-Links:
-
-https://github.com/Dias221467/Achievemenet_Manager  ----- back
-https://openrouter.ai/settings/keys  ---- api keys to ai
+http://localhost:5173 переходишь сюда и фапаешь )))))))))
 
