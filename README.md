@@ -1,12 +1,18 @@
-# React + Vite
+КОРОЧЕ ЭТО ФРОНТ 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+А это БЭК --- https://github.com/Dias221467/Achievemenet_Manager.git
+API_KEY --- https://openrouter.ai/settings/keys
 
-Currently, two official plugins are available:
+Чекаой как быстро запустить: 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Скачай nodeJS и go
 
-## Expanding the ESLint configuration
+git clone https://github.com/Dias221467/Achievemenet_Manager.git  (бэк)
+git clone https://github.com/czeful/cum_inside_me.git   (фронт)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+npm i  - Тип что бы скачать все что должно быть
+npm run dev -- что бы запустить код фронта 
+go run main.go  --- что бы запустить код бэка  (в бэке поиграйся с мангоДБ нужно)
+
+http://localhost:5173 переходишь сюда и фапаешь )))))))))
+
