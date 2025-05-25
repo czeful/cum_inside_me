@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
-import { searchUsers, sendFriendRequest, getMyProfile } from "../services/friends";
-import Navbar from "../components/Navbar";
-import Footer from '../components/Footer';
+import {
+  searchUsers,
+  sendFriendRequest,
+  getMyProfile,
+} from "../../services/friends";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 // Функция для генерации цвета/градиента по имени/email
 const getAvatarGradient = (str) => {
@@ -10,7 +14,7 @@ const getAvatarGradient = (str) => {
     "from-purple-400 via-pink-400 to-orange-400",
     "from-yellow-400 via-orange-400 to-red-400",
     "from-sky-400 via-cyan-300 to-emerald-300",
-    "from-blue-800 via-blue-500 to-blue-300"
+    "from-blue-800 via-blue-500 to-blue-300",
   ];
   let sum = 0;
   for (let i = 0; i < str.length; i++) sum += str.charCodeAt(i);
@@ -58,14 +62,23 @@ const FindFriends = () => {
       <div className="max-w-2xl mx-auto mt-14 mb-16 px-2">
         <div className="bg-white rounded-3xl shadow-2xl border border-blue-100 p-10">
           <h2 className="text-3xl font-extrabold text-blue-800 tracking-tight mb-8 text-center flex items-center justify-center gap-2">
-            <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="28"
+              height="28"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <circle cx="14" cy="14" r="12" />
               <path d="M18 16v-2a4 4 0 0 0-8 0v2" />
               <circle cx="14" cy="10" r="3" />
             </svg>
             Find Friends
           </h2>
-          <form onSubmit={handleSearch} className="flex gap-2 mb-8 justify-center">
+          <form
+            onSubmit={handleSearch}
+            className="flex gap-2 mb-8 justify-center"
+          >
             <input
               className="flex-1 min-w-0 rounded-xl px-5 py-3 border border-blue-200 bg-white focus:outline-none focus:border-blue-500 text-lg shadow transition"
               type="text"
@@ -78,9 +91,18 @@ const FindFriends = () => {
               disabled={loading}
               type="submit"
             >
-              {loading ? "Search..." : (
+              {loading ? (
+                "Search..."
+              ) : (
                 <>
-                  <svg width="21" height="21" fill="none" stroke="currentColor" strokeWidth="2" className="inline-block mr-1">
+                  <svg
+                    width="21"
+                    height="21"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className="inline-block mr-1"
+                  >
                     <circle cx="10" cy="10" r="8" />
                     <path d="M15 15l4 4" />
                   </svg>
@@ -109,7 +131,9 @@ const FindFriends = () => {
                   >
                     <div className="absolute -top-10 -right-12 w-32 h-32 rounded-full opacity-25 pointer-events-none z-0 bg-gradient-to-tr from-blue-300 via-emerald-200 to-fuchsia-400"></div>
                     {/* Аватар */}
-                    <div className={`w-14 h-14 flex items-center justify-center rounded-full font-bold text-2xl shadow-lg border-4 border-white z-10 ${avatarGradient}`}>
+                    <div
+                      className={`w-14 h-14 flex items-center justify-center rounded-full font-bold text-2xl shadow-lg border-4 border-white z-10 ${avatarGradient}`}
+                    >
                       {initial}
                     </div>
                     {/* Инфо */}
@@ -118,27 +142,66 @@ const FindFriends = () => {
                         {u.Username}
                       </div>
                       <div className="flex items-center gap-1 text-sm text-gray-500">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-0.5"><path d="M2 4l6 5 6-5" /><rect x="2" y="4" width="12" height="8" rx="2"/></svg>
+                        <svg
+                          width="16"
+                          height="16"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className="inline mr-0.5"
+                        >
+                          <path d="M2 4l6 5 6-5" />
+                          <rect x="2" y="4" width="12" height="8" rx="2" />
+                        </svg>
                         {u.Email}
                       </div>
                     </div>
                     {/* Кнопка */}
                     <button
                       className={`ml-4 px-6 py-2 rounded-xl text-lg font-semibold transition shadow
-                        ${successId === u.ID
-                          ? "bg-emerald-500 text-white"
-                          : "bg-blue-500 text-white hover:bg-blue-600"}
-                        ${sendingId === u.ID && "opacity-70 pointer-events-none"}
+                        ${
+                          successId === u.ID
+                            ? "bg-emerald-500 text-white"
+                            : "bg-blue-500 text-white hover:bg-blue-600"
+                        }
+                        ${
+                          sendingId === u.ID && "opacity-70 pointer-events-none"
+                        }
                       `}
                       onClick={() => handleSendRequest(u.ID)}
                       disabled={sendingId === u.ID || successId === u.ID}
                     >
-                      {successId === u.ID
-                        ? (<><svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M4 10l4 4 6-8" /></svg>Request sent</>)
-                        : sendingId === u.ID
-                        ? "Отправка..."
-                        : (<><svg width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M12 6v6m-3-3h6" /></svg>Add to friends</>)
-                      }
+                      {successId === u.ID ? (
+                        <>
+                          <svg
+                            width="17"
+                            height="17"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="inline mr-1"
+                          >
+                            <path d="M4 10l4 4 6-8" />
+                          </svg>
+                          Request sent
+                        </>
+                      ) : sendingId === u.ID ? (
+                        "Отправка..."
+                      ) : (
+                        <>
+                          <svg
+                            width="17"
+                            height="17"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="inline mr-1"
+                          >
+                            <path d="M12 6v6m-3-3h6" />
+                          </svg>
+                          Add to friends
+                        </>
+                      )}
                     </button>
                   </li>
                 );
@@ -146,7 +209,7 @@ const FindFriends = () => {
           </ul>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

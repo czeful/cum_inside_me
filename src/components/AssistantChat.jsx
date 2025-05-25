@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // OpenRouter API KEY (replace with your own)
-const OPENROUTER_API_KEY = "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";
+const OPENROUTER_API_KEY = "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";
 
 // Function to get the username if not passed as prop
 const getUserName = () => {
@@ -25,7 +25,7 @@ export default function AssistantChat({ user }) {
   const initialMessages = [
     {
       role: "system",
-      content: `The user's name is: ${username}. Address them by name and remember they're working with a goals management system.`
+      content: `The user's name is: ${username}. Address them by name and remember they're working with a goals management system. You need to help him choose correct steps and help him to find correct literature`
     },
     {
       role: "assistant",

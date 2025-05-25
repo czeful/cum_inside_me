@@ -5,21 +5,37 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
-import GoalsList from "./pages/GoalsList";
-import GoalCreate from "./pages/GoalCreate";
-import GoalDetail from "./pages/GoalDetail";
+
+//Goals
+import GoalsList from "./pages/goals/GoalsList";
+import GoalCreate from "./pages/goals/GoalCreate";
+import GoalDetail from "./pages/goals/GoalDetail";
 import UserProfile from "./pages/UserProfile";
-import FriendsList from "./pages/FriendsList";
-import FriendRequests from "./pages/FriendRequests";
+
+
+//Friends
+import FriendsList from "./pages/friends/FriendsList";
+import FindFriends from "./pages/friends/FindFriends";
+import FriendRequests from "./pages/friends/FriendRequests";
+
 import MyProfile from "./pages/Myprofile";
-import FindFriends from "./pages/FindFriends";
+
+//Templates
 import MyTemplates from "./pages/MyTemplates";
 import TemplateCard from "./pages/template/TemplateCard";
 import TemplateCreatePage from "./pages/template/TemplateCreatePage";
 import TemplateDetailsPage from "./pages/template/TemplateDetailsPage";
 import TemplateList from "../src/pages/template/TemplateList";
+
+
 import AssistantChat from "./components/AssistantChat";
 // import AdminDashboard from "./pages/admin/AdminDashboard";
+
+
+//Loading imports 
+import { LoadingProvider } from "./context/LoadingContext"; // <-- добавь это
+import Loader from "./components/Loader";
+
 import ChatPage from './pages/ChatPage'
 
 function App() {
@@ -32,6 +48,8 @@ function App() {
   }
 
   return (
+    <LoadingProvider>
+      <Loader/>
     <div className="app">
       <Routes>
         <Route path="/register" element={<Register />} />
@@ -146,6 +164,7 @@ function App() {
       </Routes>
       <AssistantChat user={user}/>
     </div>
+    </LoadingProvider>
   );
 }
 

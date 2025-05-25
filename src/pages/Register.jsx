@@ -60,39 +60,42 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-emerald-50 to-fuchsia-100 relative overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-blue-50 via-emerald-50 to-fuchsia-100">
+      <div
+        className="flex-1 flex items-center justify-center relative py-8 sm:py-12"
+        style={{ minHeight: "calc(100vh - 80px)" }} // Если Footer большой, можно убрать или изменить
+      >
         {/* Decorative blurs */}
-        <div className="absolute w-80 h-80 rounded-full bg-gradient-to-tr from-blue-400 via-fuchsia-300 to-emerald-200 opacity-30 blur-2xl -top-32 -left-24 pointer-events-none" />
-        <div className="absolute w-96 h-96 rounded-full bg-gradient-to-tr from-blue-100 via-emerald-200 to-fuchsia-300 opacity-20 blur-2xl -bottom-36 -right-28 pointer-events-none" />
-        
-        <div className="max-w-md w-full z-10">
-          <div className="bg-white/95 p-10 rounded-3xl shadow-2xl border border-blue-100 flex flex-col items-center space-y-6">
+        <div className="absolute w-48 h-48 xs:w-60 xs:h-60 md:w-80 md:h-80 rounded-full bg-gradient-to-tr from-blue-400 via-fuchsia-300 to-emerald-200 opacity-30 blur-2xl -top-20 -left-10 xs:-top-24 xs:-left-12 md:-top-32 md:-left-24 pointer-events-none z-0" />
+        <div className="absolute w-64 h-64 xs:w-80 xs:h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-tr from-blue-100 via-emerald-200 to-fuchsia-300 opacity-20 blur-2xl -bottom-20 -right-8 xs:-bottom-24 xs:-right-12 md:-bottom-36 md:-right-28 pointer-events-none z-0" />
+
+        <div className="relative w-full max-w-xs xs:max-w-sm sm:max-w-md md:max-w-lg mx-auto px-2 xs:px-4 sm:px-8 z-10">
+          <div className="bg-white/95 p-5 xs:p-6 sm:p-8 rounded-2xl sm:rounded-3xl shadow-2xl border border-blue-100 flex flex-col items-center space-y-5 sm:space-y-6">
             {/* Logo/icon */}
-            <div className="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-500 to-emerald-400 shadow-lg mb-3">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center rounded-full bg-gradient-to-tr from-blue-500 to-emerald-400 shadow-lg mb-2">
               <svg width="36" height="36" fill="none" stroke="white" strokeWidth="2">
                 <rect x="7" y="10" width="22" height="16" rx="5" />
                 <path d="M13 17h10M13 21h6" />
               </svg>
             </div>
-            <h2 className="text-center text-3xl font-extrabold text-blue-900 mb-2 tracking-tight">
+            <h2 className="text-center text-xl xs:text-2xl sm:text-3xl font-extrabold text-blue-900 mb-2 tracking-tight">
               Create an account
             </h2>
-            <p className="text-center text-base text-gray-500 mb-4">
+            <p className="text-center text-xs xs:text-sm sm:text-base text-gray-500 mb-2">
               Already have an account?{' '}
               <Link to="/login" className="font-bold text-blue-600 hover:text-blue-700 underline transition">
                 Log in
               </Link>
             </p>
             {apiError && (
-              <div className="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-2 text-center animate-fadeIn">
+              <div className="w-full bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded-lg mb-2 text-center animate-fadeIn text-xs xs:text-sm">
                 {apiError}
               </div>
             )}
 
-            <form className="w-full space-y-5" onSubmit={handleSubmit} autoComplete="off">
+            <form className="w-full space-y-3 xs:space-y-4 sm:space-y-5" onSubmit={handleSubmit} autoComplete="off">
               <div>
-                <label htmlFor="username" className="font-semibold text-gray-700 flex items-center gap-2 mb-1">
+                <label htmlFor="username" className="font-semibold text-gray-700 flex items-center gap-2 mb-1 text-xs xs:text-sm">
                   <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="9" r="7" /><path d="M6 14v-1a3 3 0 0 1 6 0v1" /></svg>
                   Username
                 </label>
@@ -111,7 +114,7 @@ const Register = () => {
                 {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
               </div>
               <div>
-                <label htmlFor="email" className="font-semibold text-gray-700 flex items-center gap-2 mb-1">
+                <label htmlFor="email" className="font-semibold text-gray-700 flex items-center gap-2 mb-1 text-xs xs:text-sm">
                   <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 4l7 6 7-6" /><rect x="2" y="4" width="14" height="10" rx="3"/></svg>
                   Email
                 </label>
@@ -130,7 +133,7 @@ const Register = () => {
                 {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
               </div>
               <div>
-                <label htmlFor="password" className="font-semibold text-gray-700 flex items-center gap-2 mb-1">
+                <label htmlFor="password" className="font-semibold text-gray-700 flex items-center gap-2 mb-1 text-xs xs:text-sm">
                   <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="8" width="10" height="6" rx="3"/><path d="M7 8V6a2 2 0 1 1 4 0v2"/></svg>
                   Password
                 </label>
@@ -149,7 +152,7 @@ const Register = () => {
                 {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
               </div>
               <div>
-                <label htmlFor="confirmPassword" className="font-semibold text-gray-700 flex items-center gap-2 mb-1">
+                <label htmlFor="confirmPassword" className="font-semibold text-gray-700 flex items-center gap-2 mb-1 text-xs xs:text-sm">
                   <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l6 6M6 12L12 6" /></svg>
                   Confirm password
                 </label>
@@ -170,7 +173,7 @@ const Register = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className={`w-full py-3 rounded-xl text-lg font-bold bg-gradient-to-r from-blue-500 to-emerald-500 shadow-lg hover:scale-105 transition-all text-white mt-3
+                className={`w-full py-3 rounded-xl text-base xs:text-lg font-bold bg-gradient-to-r from-blue-500 to-emerald-500 shadow-lg hover:scale-105 transition-all text-white mt-2
                   ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}
               >
                 {isSubmitting ? (

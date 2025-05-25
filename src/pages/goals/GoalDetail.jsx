@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "../services/api";
-import Navbar from "../components/Navbar";
-import Footer from '../components/Footer';
+import axios from "../../services/api";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 // --- Категории с цветами
 const badgeColors = {
@@ -30,7 +30,9 @@ function CollaboratorInvite({ goalId, onInvite }) {
     try {
       const res = await axios.get(
         `/users/search?query=${encodeURIComponent(query)}`,
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
       );
       setFoundUsers(res.data || []);
       if ((res.data || []).length === 0) setMessage("No users found.");
@@ -41,7 +43,7 @@ function CollaboratorInvite({ goalId, onInvite }) {
   };
 
   const handleInvite = async (userId) => {
-    if (!userId || typeof userId !== 'string' || userId.length !== 24) {
+    if (!userId || typeof userId !== "string" || userId.length !== 24) {
       setMessage("Некорректный ID пользователя для приглашения.");
       return;
     }
@@ -51,7 +53,9 @@ function CollaboratorInvite({ goalId, onInvite }) {
       const res = await axios.post(
         `/goals/${goalId}/invite`,
         { collaborator_id: userId },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
       );
       setMessage(res.data?.message || "Invited!");
       setFoundUsers([]);
@@ -66,7 +70,17 @@ function CollaboratorInvite({ goalId, onInvite }) {
   return (
     <div className="mb-8 mt-10 p-6 rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 via-emerald-50 to-blue-100 shadow-inner">
       <h4 className="font-semibold mb-4 text-blue-700 text-lg flex items-center gap-2">
-        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 17v-2a4 4 0 0 1 8 0v2"/><circle cx="10" cy="7" r="4"/><rect x="15" y="12" width="4" height="5" rx="2"/></svg>
+        <svg
+          width="20"
+          height="20"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <path d="M6 17v-2a4 4 0 0 1 8 0v2" />
+          <circle cx="10" cy="7" r="4" />
+          <rect x="15" y="12" width="4" height="5" rx="2" />
+        </svg>
         Invite a Friend
       </h4>
       <div className="flex gap-2">
@@ -75,7 +89,7 @@ function CollaboratorInvite({ goalId, onInvite }) {
           placeholder="Search user by email or name"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && handleSearch()}
+          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
         <button
           type="button"
@@ -88,24 +102,25 @@ function CollaboratorInvite({ goalId, onInvite }) {
       </div>
       {message && <div className="mt-2 text-sm text-blue-600">{message}</div>}
       <ul className="mt-3 space-y-1">
-        {Array.isArray(foundUsers) && foundUsers.map((u, idx) => (
-          <li
-            key={u._id || u.email || u.ID}
-            className="flex justify-between items-center bg-white px-4 py-2 rounded-xl shadow border border-blue-100"
-          >
-            <span className="font-medium text-gray-700">
-              {u.name || u.Username || u.email || u.Email}
-            </span>
-            <button
-              type="button"
-              className="px-2 py-1 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold hover:bg-emerald-200 transition"
-              onClick={() => handleInvite(u._id || u.id || u.ID)}
-              disabled={loading}
+        {Array.isArray(foundUsers) &&
+          foundUsers.map((u, idx) => (
+            <li
+              key={u._id || u.email || u.ID}
+              className="flex justify-between items-center bg-white px-4 py-2 rounded-xl shadow border border-blue-100"
             >
-              Invite
-            </button>
-          </li>
-        ))}
+              <span className="font-medium text-gray-700">
+                {u.name || u.Username || u.email || u.Email}
+              </span>
+              <button
+                type="button"
+                className="px-2 py-1 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold hover:bg-emerald-200 transition"
+                onClick={() => handleInvite(u._id || u.id || u.ID)}
+                disabled={loading}
+              >
+                Invite
+              </button>
+            </li>
+          ))}
       </ul>
     </div>
   );
@@ -229,7 +244,9 @@ const GoalDetail = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-emerald-50">
         <Navbar />
-        <div className="text-red-500 text-center mt-10 text-xl font-bold">Goal not found</div>
+        <div className="text-red-500 text-center mt-10 text-xl font-bold">
+          Goal not found
+        </div>
       </div>
     );
 
@@ -259,7 +276,9 @@ const GoalDetail = () => {
               className="w-full min-h-[70px] rounded-xl px-4 py-3 border border-blue-200 bg-white focus:outline-none focus:border-blue-500 text-base shadow-sm mb-2"
               placeholder="Description"
               value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
               required
             />
             <select
@@ -270,7 +289,9 @@ const GoalDetail = () => {
             >
               <option value="">Select Category</option>
               {categories.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
               ))}
             </select>
             <input
@@ -291,7 +312,7 @@ const GoalDetail = () => {
                     className="w-full rounded-xl px-4 py-2 border border-blue-200 bg-white focus:outline-none focus:border-blue-500 text-base shadow"
                     placeholder={`Step ${idx + 1}`}
                     value={step}
-                    onChange={e => handleStepChange(idx, e.target.value)}
+                    onChange={(e) => handleStepChange(idx, e.target.value)}
                     required
                   />
                   <button
@@ -299,18 +320,25 @@ const GoalDetail = () => {
                     className="text-red-500 hover:text-red-700 px-2 py-1 text-lg"
                     onClick={() => handleRemoveStep(idx)}
                     title="Удалить шаг"
-                  >🗑️</button>
+                  >
+                    🗑️
+                  </button>
                 </div>
               ))}
               <button
                 type="button"
                 className="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 font-semibold shadow hover:bg-blue-100 mt-2 transition"
                 onClick={handleAddStep}
-              >+ Add step</button>
+              >
+                + Add step
+              </button>
             </div>
             <CollaboratorInvite goalId={id} onInvite={refreshGoal} />
             <div className="flex gap-3 mt-6">
-              <button type="submit" className="flex-1 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-bold text-lg shadow-lg hover:scale-105 hover:shadow-2xl transition">
+              <button
+                type="submit"
+                className="flex-1 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-bold text-lg shadow-lg hover:scale-105 hover:shadow-2xl transition"
+              >
                 Save
               </button>
               <button
@@ -329,7 +357,11 @@ const GoalDetail = () => {
                 {goal.name}
               </h2>
               {goal.category && (
-                <span className={`px-3 py-1 text-xs font-bold rounded-xl shadow-sm ${badgeColors[goal.category] || "bg-blue-50 text-blue-400"}`}>
+                <span
+                  className={`px-3 py-1 text-xs font-bold rounded-xl shadow-sm ${
+                    badgeColors[goal.category] || "bg-blue-50 text-blue-400"
+                  }`}
+                >
                   {goal.category}
                 </span>
               )}
@@ -344,7 +376,9 @@ const GoalDetail = () => {
                 </span>
               )}
             </div>
-            <div className="text-gray-700 mb-4 whitespace-pre-line">{goal.description}</div>
+            <div className="text-gray-700 mb-4 whitespace-pre-line">
+              {goal.description}
+            </div>
             {/* Прогресс-бар с градиентом */}
             <div className="mb-4">
               <div className="w-full bg-gray-200 rounded-full h-3 mb-2 overflow-hidden">
@@ -354,12 +388,14 @@ const GoalDetail = () => {
                 />
               </div>
               <span className="text-sm text-gray-600">
-                {completedSteps} from {totalSteps} steps ({percent}%)  done
+                {completedSteps} from {totalSteps} steps ({percent}%) done
               </span>
             </div>
             {/* Steps */}
             <div>
-              <div className="font-medium mb-2 text-blue-700">Steps & Progress:</div>
+              <div className="font-medium mb-2 text-blue-700">
+                Steps & Progress:
+              </div>
               {(!goal.steps || goal.steps.length === 0) && (
                 <div className="text-gray-400">No steps yet</div>
               )}
@@ -369,20 +405,33 @@ const GoalDetail = () => {
                     <li key={step} className="flex items-center gap-3">
                       <button
                         className={`w-7 h-7 rounded-full border-2 flex items-center justify-center
-                        ${goal.progress[step]
+                        ${
+                          goal.progress[step]
                             ? "bg-gradient-to-tr from-emerald-400 to-blue-500 border-blue-500"
                             : "bg-white border-gray-300"
                         } transition`}
                         onClick={() => toggleStep(step, goal.progress[step])}
-                        title={goal.progress[step] ? "Mark as incomplete" : "Mark as complete"}
+                        title={
+                          goal.progress[step]
+                            ? "Mark as incomplete"
+                            : "Mark as complete"
+                        }
                       >
                         {goal.progress[step] ? (
-                          <span className="text-white font-bold text-lg">✓</span>
+                          <span className="text-white font-bold text-lg">
+                            ✓
+                          </span>
                         ) : (
                           ""
                         )}
                       </button>
-                      <span className={`text-lg ${goal.progress[step] ? "line-through text-gray-400" : ""}`}>
+                      <span
+                        className={`text-lg ${
+                          goal.progress[step]
+                            ? "line-through text-gray-400"
+                            : ""
+                        }`}
+                      >
                         {step}
                       </span>
                     </li>
@@ -390,34 +439,50 @@ const GoalDetail = () => {
               </ul>
             </div>
             {/* Collaborators с аватарками */}
-            {Array.isArray(goal.collaborators) && goal.collaborators.length > 0 && (
-              <div className="mb-5 mt-7">
-                <div className="font-medium mb-2 text-blue-700">Collaborators:</div>
-                <ul className="flex flex-wrap gap-2">
-                  {goal.collaborators.map((id, idx) => {
-                    // Фейковый аватар по id/email
-                    const initials = typeof id === "string" && id.includes("@")
-                      ? id[0].toUpperCase()
-                      : String(id).slice(0,2).toUpperCase();
-                    return (
-                      <li key={id || idx} className="flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-xl shadow text-blue-700 font-bold text-sm">
-                        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-tr from-blue-400 via-fuchsia-400 to-emerald-400 text-white font-bold">
-                          {initials}
-                        </span>
-                        <span className="max-w-[120px] truncate">{id}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
+            {Array.isArray(goal.collaborators) &&
+              goal.collaborators.length > 0 && (
+                <div className="mb-5 mt-7">
+                  <div className="font-medium mb-2 text-blue-700">
+                    Collaborators:
+                  </div>
+                  <ul className="flex flex-wrap gap-2">
+                    {goal.collaborators.map((id, idx) => {
+                      // Фейковый аватар по id/email
+                      const initials =
+                        typeof id === "string" && id.includes("@")
+                          ? id[0].toUpperCase()
+                          : String(id).slice(0, 2).toUpperCase();
+                      return (
+                        <li
+                          key={id || idx}
+                          className="flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-xl shadow text-blue-700 font-bold text-sm"
+                        >
+                          <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-tr from-blue-400 via-fuchsia-400 to-emerald-400 text-white font-bold">
+                            {initials}
+                          </span>
+                          <span className="max-w-[120px] truncate">{id}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
             <div className="flex gap-3 mt-8">
               <button
                 type="button"
                 className="flex-1 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-bold text-lg shadow-lg hover:scale-105 hover:shadow-2xl transition"
                 onClick={() => setEdit(true)}
               >
-                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" className="inline-block mr-1"><path d="M15 6l-1.5-1.5a2.12 2.12 0 0 0-3 0l-6 6a2.12 2.12 0 0 0 0 3L6 15a2.12 2.12 0 0 0 3 0l6-6a2.12 2.12 0 0 0 0-3z" /></svg>
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="inline-block mr-1"
+                >
+                  <path d="M15 6l-1.5-1.5a2.12 2.12 0 0 0-3 0l-6 6a2.12 2.12 0 0 0 0 3L6 15a2.12 2.12 0 0 0 3 0l6-6a2.12 2.12 0 0 0 0-3z" />
+                </svg>
                 Edit
               </button>
               <button
@@ -425,7 +490,16 @@ const GoalDetail = () => {
                 className="flex-1 py-3 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 text-white font-bold text-lg shadow hover:scale-105 transition"
                 onClick={handleDelete}
               >
-                <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" className="inline-block mr-1"><path d="M6 6h12M6 6l1-1a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2l1 1m-8 0v10m4-10v10" /></svg>
+                <svg
+                  width="20"
+                  height="20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="inline-block mr-1"
+                >
+                  <path d="M6 6h12M6 6l1-1a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2l1 1m-8 0v10m4-10v10" />
+                </svg>
                 Delete
               </button>
               <button
@@ -439,7 +513,7 @@ const GoalDetail = () => {
           </div>
         )}
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

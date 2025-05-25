@@ -65,7 +65,7 @@ const TemplateCard = ({ template, onCopy, onView, className }) => {
 
       {/* Действия */}
       <div className="flex items-center gap-2 mt-auto z-10">
-        {/* <button
+        <button
           className="flex-1 min-w-0 flex items-center justify-center gap-1 px-2 py-1 rounded-lg bg-gradient-to-r from-blue-500 to-emerald-500 text-white text-xs font-bold shadow-md
             hover:scale-[1.04] hover:shadow-lg active:scale-100 transition-all duration-150 group truncate"
           onClick={() => onCopy(template)}
@@ -76,7 +76,7 @@ const TemplateCard = ({ template, onCopy, onView, className }) => {
             <path d="M5.5 5.5h3v3h-3z"/>
           </svg>
           <span className="truncate">Copy</span>
-        </button> */}
+        </button>
         <button
           className="flex-1 min-w-0 flex items-center justify-center gap-1 px-2 py-1 rounded-lg bg-white border border-blue-200 text-blue-600 text-xs font-bold shadow-sm
             hover:bg-blue-50 active:bg-blue-100 transition-all duration-150 truncate"

@@ -4,16 +4,26 @@ import ChatWindow from "../components/ChatWindow";
 import { getMyProfile } from "../services/friends";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useLoading } from "../context/LoadingContext";
 
 export default function ChatPage() {
   const [myId, setMyId] = useState(null);
   const [selectedFriend, setSelectedFriend] = useState(null);
+  const {setLoading} = useLoading();
 
   useEffect(() => {
-    getMyProfile().then(res => {
-      setMyId(res.data._id || res.data.id || res.data.ID);
-    });
-  }, []);
+  const fetchProfile = async () => {
+    setLoading(true);
+    try {
+      const res = await getMyProfile();
+      setMyId(res.data.ID || res.data.id || res.data._id);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchProfile();
+}, [setLoading]);
+
 
   return (
     <div>

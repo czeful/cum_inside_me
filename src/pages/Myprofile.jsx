@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getMyProfile } from "../services/friends";
 import Navbar from "../components/Navbar";
 import Footer from '../components/Footer';
-
+import { useLoading } from "../context/LoadingContext";
 
 const GradientAvatar = ({ name }) => {
   const initial = name ? name[0].toUpperCase() : "U";
@@ -22,10 +22,19 @@ const GradientAvatar = ({ name }) => {
 const MyProfile = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    getMyProfile().then(res => setUser(res.data));
-  }, []);
+  const {setLoading} = useLoading();
+ useEffect(() => {
+    const fetchProfile = async () => {
+      setLoading(true); 
+      try {
+        const res = await getMyProfile();
+        setUser(res.data);
+      } finally {
+        setLoading(false); 
+      }
+    };
+    fetchProfile();
+  }, [setLoading]);
 
   if (!user) return (
     <div className="flex justify-center items-center min-h-[40vh] text-lg text-blue-600 bg-gradient-to-br from-gray-100 via-blue-50 to-emerald-50">

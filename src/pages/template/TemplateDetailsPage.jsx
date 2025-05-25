@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "../../services/api";
 import Navbar from "../../components/Navbar";
+import { useLoading } from "../../context/LoadingContext";
 
 const badgeColors = {
   Health: "bg-emerald-100 text-emerald-600",
@@ -17,13 +18,14 @@ const TemplateDetailsPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [template, setTemplate] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("");
+  const {setLoading} = useLoading();
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
         console.log(template)
+        setLoading(true);
         const res = await axios.get(`/templates/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
@@ -38,6 +40,7 @@ const TemplateDetailsPage = () => {
   }, [id]);
 
   const handleCopy = async () => {
+    setLoading(true);
     try {
       await axios.post(`/templates/${id}/copy`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -48,18 +51,8 @@ const TemplateDetailsPage = () => {
       setMsg("Ошибка копирования");
       setTimeout(() => setMsg(""), 3000);
     }
+    setLoading(ture);
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <div className="flex justify-center items-center h-96 text-lg text-gray-500">
-          Загрузка...
-        </div>
-      </div>
-    );
-  }
 
   if (!template) {
     return (
@@ -120,7 +113,7 @@ const TemplateDetailsPage = () => {
             className="flex-1 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-emerald-500 text-white font-bold shadow hover:scale-105 transition"
             onClick={handleCopy}
           >
-            Скопировать к себе
+            Copy
           </button>
           <button
             className="flex-1 px-4 py-2 rounded-xl bg-gray-100 border border-blue-200 text-blue-600 font-bold shadow hover:bg-blue-50 transition"

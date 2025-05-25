@@ -3,6 +3,7 @@ import axios from "../../services/api";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { generateSteps } from "../../services/ai"; // Adjust the path if needed
+import { useLoading } from "../../context/LoadingContext";
 
 const categories = [
   "Health", "Career", "Education", "Personal", "Finance", "Hobby", "Relationships"
@@ -10,6 +11,8 @@ const categories = [
 
 const TemplateCreatePage = ({ onCreated }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -17,7 +20,7 @@ const TemplateCreatePage = ({ onCreated }) => {
     steps: [""],
     public: true,
   });
-  const [loading, setLoading] = useState(false);
+
   const [msg, setMsg] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
 

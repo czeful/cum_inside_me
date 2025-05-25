@@ -4,26 +4,31 @@ import TemplateCard from "./template/TemplateCard";
 import Navbar from "../components/Navbar";
 import TemplateDetails from "./template/TemplateDetailsPage";
 import { useNavigate } from "react-router-dom";
-import Footer from '../components/Footer';
+import Footer from "../components/Footer";
+import { useLoading } from "../../src/context/LoadingContext";
 
 const MyTemplates = () => {
   const [templates, setTemplates] = useState([]);
   const [selected, setSelected] = useState(null);
   const navigate = useNavigate();
+  const { setLoading } = useLoading();
 
-  useEffect(() => {
-    const fetchTemplates = async () => {
-      try {
-        const res = await axios.get("/templates", {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        setTemplates(res.data);
-      } catch {
-        setTemplates([]);
-      }
-    };
-    fetchTemplates();
-  }, []);
+ useEffect(() => {
+  const fetchTemplates = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get("/templates", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      setTemplates(Array.isArray(res.data) ? res.data : []);
+    } catch {
+      setTemplates([]);
+    }
+    setLoading(false);
+  };
+  fetchTemplates();
+}, [setLoading]);
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-blue-100">
@@ -87,7 +92,7 @@ const MyTemplates = () => {
           />
         )}
       </div>
-        <Footer/>
+      <Footer />
     </div>
   );
 };

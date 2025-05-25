@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import {
   getFriendRequests,
   respondToFriendRequest,
-} from "../services/friends";
-import Navbar from "../components/Navbar";
-import Footer from '../components/Footer';
+} from "../../services/friends";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 // Генератор градиента для аватара по имени/ID
 const getAvatarGradient = (str) => {
@@ -13,7 +13,7 @@ const getAvatarGradient = (str) => {
     "from-purple-400 via-pink-400 to-orange-400",
     "from-yellow-400 via-orange-400 to-red-400",
     "from-sky-400 via-cyan-300 to-emerald-300",
-    "from-blue-800 via-blue-500 to-blue-300"
+    "from-blue-800 via-blue-500 to-blue-300",
   ];
   let sum = 0;
   for (let i = 0; i < str.length; i++) sum += str.charCodeAt(i);
@@ -37,12 +37,12 @@ const FriendRequests = () => {
 
   const accept = async (id) => {
     await respondToFriendRequest(id, true);
-    setRequests(requests.filter(r => r.id !== id && r._id !== id));
+    setRequests(requests.filter((r) => r.id !== id && r._id !== id));
   };
 
   const reject = async (id) => {
     await respondToFriendRequest(id, false);
-    setRequests(requests.filter(r => r.id !== id && r._id !== id));
+    setRequests(requests.filter((r) => r.id !== id && r._id !== id));
   };
 
   const safeRequests = requests || [];
@@ -57,9 +57,7 @@ const FriendRequests = () => {
               Friend requests
             </h2>
             <span className="text-blue-600 font-semibold text-lg">
-              {safeRequests.length > 0
-                ? `Всего: ${safeRequests.length}`
-                : ""}
+              {safeRequests.length > 0 ? `Всего: ${safeRequests.length}` : ""}
             </span>
           </div>
 
@@ -69,10 +67,17 @@ const FriendRequests = () => {
             </div>
           ) : (
             <ul className="space-y-6">
-              {safeRequests.map(req => {
+              {safeRequests.map((req) => {
                 // Если есть имя/email, показываем красиво, иначе только id
-                const sender = req.sender_name || req.sender_email || req.sender_id || req.email || req.id || req._id;
-                const initial = typeof sender === "string" ? sender[0].toUpperCase() : "U";
+                const sender =
+                  req.sender_name ||
+                  req.sender_email ||
+                  req.sender_id ||
+                  req.email ||
+                  req.id ||
+                  req._id;
+                const initial =
+                  typeof sender === "string" ? sender[0].toUpperCase() : "U";
                 const avatarGradient = getAvatarGradient(sender);
 
                 return (
@@ -83,20 +88,31 @@ const FriendRequests = () => {
                     {/* Фоновый градиент-декор */}
                     <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full opacity-20 bg-gradient-to-tr from-blue-300 via-emerald-200 to-fuchsia-400 pointer-events-none"></div>
                     {/* Аватарка */}
-                    <div className={`w-14 h-14 flex items-center justify-center rounded-full font-bold text-2xl select-none shadow-lg border-4 border-white z-10 ${avatarGradient}`}>
+                    <div
+                      className={`w-14 h-14 flex items-center justify-center rounded-full font-bold text-2xl select-none shadow-lg border-4 border-white z-10 ${avatarGradient}`}
+                    >
                       {initial}
                     </div>
                     {/* Имя/email/id заявки */}
                     <div className="flex-1 z-10">
                       <div className="font-semibold text-lg text-gray-800 group-hover:text-blue-700 truncate">
-                        {req.sender_name || req.sender_email || req.sender_id || "User"}
+                        {req.sender_name ||
+                          req.sender_email ||
+                          req.sender_id ||
+                          "User"}
                       </div>
                       {req.sender_email && (
-                        <div className="text-sm text-gray-500 truncate">{req.sender_email}</div>
+                        <div className="text-sm text-gray-500 truncate">
+                          {req.sender_email}
+                        </div>
                       )}
-                      {req.sender_id && !req.sender_name && !req.sender_email && (
-                        <div className="text-xs text-blue-500 opacity-80">ID: {req.sender_id}</div>
-                      )}
+                      {req.sender_id &&
+                        !req.sender_name &&
+                        !req.sender_email && (
+                          <div className="text-xs text-blue-500 opacity-80">
+                            ID: {req.sender_id}
+                          </div>
+                        )}
                     </div>
                     {/* Кнопки */}
                     <div className="flex gap-2 z-10">
@@ -104,14 +120,32 @@ const FriendRequests = () => {
                         className="px-4 py-2 rounded-xl bg-gradient-to-tr from-emerald-500 to-blue-500 text-white font-bold shadow hover:scale-105 transition"
                         onClick={() => accept(req._id || req.id)}
                       >
-                        <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M4 10l4 4 6-8" /></svg>
+                        <svg
+                          width="18"
+                          height="18"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className="inline mr-1"
+                        >
+                          <path d="M4 10l4 4 6-8" />
+                        </svg>
                         Accept
                       </button>
                       <button
                         className="px-4 py-2 rounded-xl bg-gradient-to-tr from-pink-400 to-orange-500 text-white font-bold shadow hover:scale-105 transition"
                         onClick={() => reject(req._id || req.id)}
                       >
-                        <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-1"><path d="M6 6l6 6M6 12L12 6" /></svg>
+                        <svg
+                          width="18"
+                          height="18"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className="inline mr-1"
+                        >
+                          <path d="M6 6l6 6M6 12L12 6" />
+                        </svg>
                         Reject
                       </button>
                     </div>
@@ -122,7 +156,7 @@ const FriendRequests = () => {
           )}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

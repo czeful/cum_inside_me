@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../services/api";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { generateSteps } from "../services/ai"; // путь подправь если надо
+import axios from "../../services/api";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import { generateSteps } from "../../services/ai"; // путь подправь если надо
 
 const categories = [
   "Health",
