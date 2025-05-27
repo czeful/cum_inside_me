@@ -25,12 +25,12 @@ const MyProfile = () => {
   const {setLoading} = useLoading();
  useEffect(() => {
     const fetchProfile = async () => {
-      setLoading(true); 
+      setLoading(true); // 1. Включаем лоадер
       try {
         const res = await getMyProfile();
         setUser(res.data);
       } finally {
-        setLoading(false); 
+        setLoading(false); // 2. Выключаем лоадер (и при успехе, и при ошибке)
       }
     };
     fetchProfile();

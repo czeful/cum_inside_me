@@ -16,26 +16,29 @@ export default function ChatFriendsList({ onSelect, selectedId }) {
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
-    getFriends().then(res => setFriends(res.data));
+    getFriends().then(res => setFriends(Array.isArray(res.data) ? res.data : []));
   }, []);
 
   return (
     <ul className="divide-y divide-slate-100">
-      {friends.map((id, idx) => (
-        <li key={id}>
+      {friends.map((friend, idx) => (
+        <li key={friend.id || friend._id}>
           <button
             className={`
               w-full flex items-center gap-3 text-left py-3 px-4
               hover:bg-teal-50/70 transition rounded-2xl
-              ${selectedId === id ? "bg-teal-100/80 font-bold shadow" : ""}
+              ${selectedId === (friend.id || friend._id) ? "bg-teal-100/80 font-bold shadow" : ""}
             `}
-            onClick={() => onSelect({ id })}
+            onClick={() => onSelect(friend)}
           >
-            {/* Fake avatar */}
+            {/* Аватар */}
             <span className={`w-10 h-10 flex items-center justify-center rounded-full text-lg font-bold text-slate-700 shadow ${avatarColor(idx)}`}>
-              {String(id).slice(0,2).toUpperCase()}
+              {(friend.username ? friend.username[0] : "U").toUpperCase()}
             </span>
-            <span className="truncate">{id}</span>
+            <div className="flex flex-col truncate">
+              <span className="font-semibold truncate">{friend.username}</span>
+              <span className="text-xs text-gray-500 truncate">{friend.email}</span>
+            </div>
           </button>
         </li>
       ))}

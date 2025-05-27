@@ -36,10 +36,6 @@ export const respondToFriendRequest = (requestId, accept) =>
     { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
   );
 
-export const removeFriend = (friendId) =>
-  axios.delete(`/friends/${friendId}`, {
-    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  });
 
 // Получить всех пользователей (админский эндпоинт)
 export function getAllUsers() {
@@ -50,6 +46,12 @@ export function getAllUsers() {
 
 export function searchUsers(query = "") {
   return axios.get(`/users/search${query ? `?query=${encodeURIComponent(query)}` : ""}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  });
+}
+
+export async function removeFriend(id) {
+  return axios.delete(`/friends/${id}`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   });
 }

@@ -16,16 +16,16 @@ const Navbar = () => {
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Закрывать меню при клике на ссылку
+  
   const handleNavClick = () => setMenuOpen(false);
 
   return (
     <nav className="relative z-50 shadow bg-white/90 backdrop-blur border-b border-slate-100">
-      {/* Градиент-подсветка */}
+      {/* */}
       <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-sky-200 via-teal-100 to-emerald-100 opacity-70 rounded-t-xl pointer-events-none" />
       <div className="max-w-7xl mx-auto px-2 xs:px-4 sm:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Логотип и лого-кнопка */}
+          {/*  */}
           <div className="flex items-center gap-2 md:gap-6">
             <Link to="/dashboard" className="flex items-center gap-2 mr-2 select-none">
               <span className="inline-flex items-center justify-center h-10 w-10 bg-gradient-to-tr from-sky-200 to-emerald-200 rounded-full shadow text-slate-700 text-xl font-black">
@@ -40,20 +40,20 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* --- МЕНЮ для мобилок --- */}
+          {/*  */}
           <div className="flex md:hidden items-center gap-2">
             <button
               className="p-2 rounded-lg text-teal-700 hover:bg-teal-50 transition focus:outline-none"
               aria-label="Open menu"
               onClick={() => setMenuOpen(!menuOpen)}
             >
-              {/* Бургер иконка */}
+              {/* */}
               <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M4 7h20M4 14h20M4 21h20" strokeLinecap="round" />
               </svg>
             </button>
           </div>
-          {/* --- Навигация на десктопе --- */}
+          {/*  */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map(link => (
               <Link
@@ -77,7 +77,7 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-          {/* --- Профиль и логаут (всегда справа) --- */}
+          {/* */}
           <div className="flex items-center gap-2">
             <Link
               to="/profile"
@@ -103,7 +103,7 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-        {/* --- Мобильное выпадающее меню --- */}
+        {/* */}
         {menuOpen && (
           <div className="md:hidden absolute right-0 left-0 top-16 bg-white shadow-lg rounded-b-2xl py-2 px-4 flex flex-col gap-1 animate-fadeIn z-40">
             {navLinks.map(link => (

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 // OpenRouter API KEY (replace with your own)
-const OPENROUTER_API_KEY = "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";
+const OPENROUTER_API_KEY = "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";
 
 // Function to get the username if not passed as prop
 const getUserName = () => {

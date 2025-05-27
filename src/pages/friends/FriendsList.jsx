@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { getFriends } from "../../services/friends";
+import { getFriends, removeFriend } from "../../services/friends";
 import Navbar from "../../components/Navbar";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 
 const getAvatarGradient = (str) => {
-  // Детерминированный выбор градиента по строке (имя/email)
   const colors = [
     "from-blue-400 via-emerald-400 to-fuchsia-500",
     "from-purple-400 via-pink-400 to-orange-400",
@@ -20,6 +19,7 @@ const getAvatarGradient = (str) => {
 
 const FriendsList = () => {
   const [friends, setFriends] = useState([]);
+  const [removingId, setRemovingId] = useState(null);
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -28,6 +28,20 @@ const FriendsList = () => {
     };
     fetchFriends();
   }, []);
+
+  const handleRemove = async (key, name) => {
+    if (!window.confirm(`Удалить друга ${name}?`)) return;
+    setRemovingId(key);
+    try {
+      await removeFriend(key);
+      setFriends(friends.filter(frd =>
+        (typeof frd === "string" ? frd : frd._id || frd.id) !== key
+      ));
+    } catch {
+      alert("Ошибка при удалении друга!");
+    }
+    setRemovingId(null);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 via-blue-50 to-emerald-50">
@@ -38,20 +52,13 @@ const FriendsList = () => {
             <h2 className="text-3xl font-extrabold text-blue-800 tracking-tight mb-1">
               My Friends
             </h2>
-            <div className="text-gray-500 text-base">List of your frineds</div>
+            <div className="text-gray-500 text-base">List of your friends</div>
           </div>
           <Link
             to="/find-friend"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-tr from-emerald-500 to-blue-400 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl active:scale-100 transition-all duration-200"
           >
-            <svg
-              width="22"
-              height="22"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="mr-1"
-            >
+            <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2" className="mr-1">
               <circle cx="11" cy="11" r="9" />
               <path d="M11 7v8M7 11h8" strokeLinecap="round" />
             </svg>
@@ -81,48 +88,50 @@ const FriendsList = () => {
                     f.name ||
                     f.email?.split("@")[0] ||
                     "Без имени";
-              // Тута мы выводим данные наших друзей
               const email = f.email || "";
               const initial = name ? name[0].toUpperCase() : "F";
               const avatarGradient = getAvatarGradient(name + email);
-
               const online = key.charCodeAt(0) % 3 !== 0;
 
               return (
-                <li key={key}>
+                <li key={key} className="relative group">
+                  {/* Delete button */}
+                  <button
+                    className={`absolute top-2 right-2 z-20 p-2 rounded-full bg-red-100 text-red-600 hover:bg-red-200 shadow transition 
+                    opacity-0 group-hover:opacity-100 ${removingId === key ? "opacity-100 cursor-not-allowed" : ""}`}
+                    title="Удалить друга"
+                    disabled={removingId === key}
+                    onClick={e => {
+                      e.preventDefault();
+                      handleRemove(key, name);
+                    }}
+                  >
+                    {removingId === key ? (
+                      <svg className="animate-spin" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+                        <circle cx="9" cy="9" r="8" strokeDasharray="24" />
+                      </svg>
+                    ) : (
+                      <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M6 6l6 6M6 12L12 6" />
+                        <rect x="2" y="2" width="14" height="14" rx="3" />
+                      </svg>
+                    )}
+                  </button>
+
                   <Link
                     to={`/users/${key}`}
                     className="flex items-center gap-5 p-5 bg-white/90 rounded-2xl shadow-xl border border-blue-50 hover:border-blue-400 hover:shadow-2xl transition-all group relative overflow-hidden"
                   >
-                    {/* Декоративный полукруглый градиент */}
                     <div className="absolute -top-10 -right-12 w-32 h-32 rounded-full opacity-25 pointer-events-none z-0 bg-gradient-to-tr from-blue-300 via-emerald-200 to-fuchsia-400"></div>
-                    {/* Аватар */}
-                    <div
-                      className={`relative w-14 h-14 flex items-center justify-center rounded-full text-xl font-extrabold shadow-lg select-none ${avatarGradient} z-10`}
-                    >
+                    <div className={`relative w-14 h-14 flex items-center justify-center rounded-full text-xl font-extrabold shadow-lg select-none ${avatarGradient} z-10`}>
                       {initial}
-                      {/* Индикатор онлайн-статуса */}
-                      <span
-                        className={`absolute bottom-0 right-0 w-4 h-4 rounded-full ring-2 ring-white ${
-                          online ? "bg-emerald-400" : "bg-gray-300"
-                        }`}
-                      ></span>
+                      <span className={`absolute bottom-0 right-0 w-4 h-4 rounded-full ring-2 ring-white ${online ? "bg-emerald-400" : "bg-gray-300"}`}></span>
                     </div>
-                    {/* Имя/email/status */}
                     <div className="flex-1 z-10">
-                      <div className="font-semibold text-lg text-gray-800 group-hover:text-blue-700 truncate">
-                        {name}
-                      </div>
+                      <div className="font-semibold text-lg text-gray-800 group-hover:text-blue-700 truncate">{name}</div>
                       {email && (
                         <div className="flex items-center gap-1 text-sm text-gray-500">
-                          <svg
-                            width="16"
-                            height="16"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="inline mr-0.5"
-                          >
+                          <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" className="inline mr-0.5">
                             <path d="M2 4l6 5 6-5" />
                             <rect x="2" y="4" width="12" height="8" rx="2" />
                           </svg>
@@ -130,26 +139,13 @@ const FriendsList = () => {
                         </div>
                       )}
                       <div className="flex items-center gap-2 mt-1">
-                        <span
-                          className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                            online
-                              ? "bg-emerald-100 text-emerald-600"
-                              : "bg-gray-100 text-gray-400"
-                          }`}
-                        >
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${online ? "bg-emerald-100 text-emerald-600" : "bg-gray-100 text-gray-400"}`}>
                           {online ? "Online" : "Offline"}
                         </span>
                       </div>
                     </div>
-                    {/* Подробнее иконка */}
                     <span className="ml-2 text-blue-400 group-hover:text-blue-700 transition z-10">
-                      <svg
-                        width="21"
-                        height="21"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
+                      <svg width="21" height="21" fill="none" stroke="currentColor" strokeWidth="2">
                         <circle cx="10" cy="10" r="8" />
                         <path d="M7 10h6M10 7v6" />
                       </svg>

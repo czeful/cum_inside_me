@@ -29,7 +29,6 @@ export default function useChatSocket({ chatUrl, onMessage }) {
         ws.current.close();
       }
     };
-    // Не включаем onMessage в зависимости!
   }, [chatUrl]);
 
   const send = (msgObj) => {

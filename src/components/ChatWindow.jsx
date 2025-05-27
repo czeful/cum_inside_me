@@ -55,7 +55,14 @@ export default function ChatWindow({ myId, friend }) {
           (msg.sender_id === friend.id && msg.receiver_id === myId)) &&
         ["text", "file", "image", "audio"].includes(msg.type)
       ) {
-        setMessages((prev) => [...prev, msg]);
+        setMessages((prev) => {
+          // Check if message with this tempId already exists
+          const messageExists = prev.some(m => m.tempId === msg.tempId);
+          if (messageExists) {
+            return prev; // Don't add duplicate
+          }
+          return [...prev, msg];
+        });
       }
     },
   });
@@ -87,7 +94,7 @@ export default function ChatWindow({ myId, friend }) {
     e.target.value = "";
   };
 
-  // ===== Голосовое сообщение (запись только в pending, отправка отдельно)
+  // ===== Голосовое сообщение 
   const startRecording = async () => {
     if (isRecording) return;
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -113,12 +120,12 @@ export default function ChatWindow({ myId, friend }) {
     }
   };
 
-  // ====== Отправка всех типов данных только на "Send"
+  
   const handleSend = async (e) => {
     e.preventDefault();
     let sent = false;
 
-    // Сначала — если есть аудиосообщение
+    
     if (pendingAudio) {
       const file = new File([pendingAudio.blob], "voice-message.webm", {
         type: "audio/webm",
@@ -153,7 +160,7 @@ export default function ChatWindow({ myId, friend }) {
       sent = true;
     }
 
-    // Потом — если есть pendingFile (file/image)
+
     if (pendingFile) {
       const formData = new FormData();
       formData.append("file", pendingFile.file);
@@ -185,7 +192,7 @@ export default function ChatWindow({ myId, friend }) {
       sent = true;
     }
 
-    // Наконец — если есть текст
+    
     if (text.trim()) {
       send({ type: "text", receiver_id: friend.id, text });
       setMessages((prev) => [
@@ -202,7 +209,6 @@ export default function ChatWindow({ myId, friend }) {
       sent = true;
     }
 
-    // Если ничего не было — не отправляем
     if (!sent) return;
   };
 
@@ -249,10 +255,10 @@ export default function ChatWindow({ myId, friend }) {
             title={online ? "Online" : "Offline"}
           ></span>
           <span className="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-200 to-teal-200 flex items-center justify-center text-lg font-bold text-slate-700 shadow">
-            {String(friend.id).slice(0, 2).toUpperCase()}
+            {String(friend.username || friend.name || friend.id).slice(0, 2).toUpperCase()}
           </span>
           <span className="font-bold text-lg text-slate-700 truncate">
-            {friend.id}
+            {friend.username || friend.name || friend.id}
           </span>
         </div>
         {isTyping && (

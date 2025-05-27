@@ -1,6 +1,6 @@
 // src/services/ai.js
 
-const OPENROUTER_API_KEY = "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"; // сюда подставь свой OpenRouter ключ
+const OPENROUTER_API_KEY = "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"; 
 
 export async function generateSteps({ name, description, category }) {
   const prompt = `
@@ -22,7 +22,7 @@ export async function generateSteps({ name, description, category }) {
       "X-Title": "AchievementManager"
     },
     body: JSON.stringify({
-      model: "openai/gpt-3.5-turbo", // Можно указать другую модель (см. ниже)
+      model: "openai/gpt-3.5-turbo", 
       messages: [{ role: "user", content: prompt }],
       temperature: 0.7,
     }),
