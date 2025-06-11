@@ -1,5 +1,5 @@
-import api from "./api";
+import chatApi from "../services/chat_api";
 
 export function getChat(friendId) {
-  return api.get(`/chat/${friendId}`); 
+  return chatApi.get(`/chat/${friendId}`); 
 }

@@ -18,10 +18,6 @@ export const AuthProvider = ({ children }) => {
         try {
           // Set the token in API headers
           api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          
-          // Get user information
-          // Note: You'll need to implement this endpoint on your backend
-          // or use the existing GetUserHandler
           const userId = getUserIdFromToken(token);
           if (userId) {
             const response = await api.get(`/users/${userId}`);

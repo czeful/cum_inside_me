@@ -5,14 +5,11 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
-
 //Goals
 import GoalsList from "./pages/goals/GoalsList";
 import GoalCreate from "./pages/goals/GoalCreate";
 import GoalDetail from "./pages/goals/GoalDetail";
 import UserProfile from "./pages/UserProfile";
-
-
 //Friends
 import FriendsList from "./pages/friends/FriendsList";
 import FindFriends from "./pages/friends/FindFriends";
@@ -27,13 +24,12 @@ import TemplateCreatePage from "./pages/template/TemplateCreatePage";
 import TemplateDetailsPage from "./pages/template/TemplateDetailsPage";
 import TemplateList from "../src/pages/template/TemplateList";
 
-
 import AssistantChat from "./components/AssistantChat";
 // import AdminDashboard from "./pages/admin/AdminDashboard";
 
 
 //Loading imports 
-import { LoadingProvider } from "./context/LoadingContext"; // <-- добавь это
+import { LoadingProvider } from "./context/LoadingContext"; 
 import Loader from "./components/Loader";
 
 import ChatPage from './pages/ChatPage'

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import useChatSocket from "../hooks/useChatSocket";
 import { getChat } from "../services/chat";
 import api from "../services/api";
@@ -10,7 +10,7 @@ function formatSize(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(2)} МБ`;
 }
 
-const API_URL = "http://localhost:8080";
+const API_URL = "http://localhost:4000";
 
 export default function ChatWindow({ myId, friend }) {
   const [messages, setMessages] = useState([]);
@@ -23,25 +23,20 @@ export default function ChatWindow({ myId, friend }) {
   const [pendingAudio, setPendingAudio] = useState(null); // {blob, previewUrl}
   const [playingIdx, setPlayingIdx] = useState(null);
   const bottomRef = useRef(null);
-  let typingTimeout = useRef();
+  const typingTimeout = useRef();
   const audioChunks = useRef([]);
 
   const token = localStorage.getItem("token");
-  const wsUrl = `ws://localhost:8080/ws/chat?token=${token}&chat=${friend.id}`;
 
-  // SVG для файла
-  const FileIcon = (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-      <rect x="5" y="2" width="14" height="20" rx="4" fill="#6ec1e4" />
-      <rect x="8" y="6" width="8" height="2" rx="1" fill="#fff" />
-      <rect x="8" y="10" width="8" height="2" rx="1" fill="#fff" />
-      <rect x="8" y="14" width="5" height="2" rx="1" fill="#fff" />
-    </svg>
-  );
+  // Очистка таймера при размонтировании компонента
+  useEffect(() => {
+    return () => clearTimeout(typingTimeout.current);
+  }, []);
 
-  const send = useChatSocket({
-    chatUrl: wsUrl,
-    onMessage: (msg) => {
+  // Универсальный обработчик сообщений от сокета
+  const handleSocketMessage = useCallback(
+    (msg) => {
+      console.log("⚡ [FRONT] Получено сообщение:", msg);
       if (msg.type === "typing" && msg.sender_id === friend.id) {
         setIsTyping(msg.typing);
         return;
@@ -56,25 +51,42 @@ export default function ChatWindow({ myId, friend }) {
         ["text", "file", "image", "audio"].includes(msg.type)
       ) {
         setMessages((prev) => {
-          // Check if message with this tempId already exists
-          const messageExists = prev.some(m => m.tempId === msg.tempId);
+          // Проверка по created_at, тексту и sender_id (tempId может отсутствовать)
+          const messageExists = prev.some(
+            (m) =>
+              m.created_at === msg.created_at &&
+              m.text === msg.text &&
+              m.sender_id === msg.sender_id
+          );
           if (messageExists) {
-            return prev; // Don't add duplicate
+            return prev;
           }
           return [...prev, msg];
         });
       }
     },
+    [myId, friend.id]
+  );
+
+  // Инициализация сокета (ТОЛЬКО ОДИН РАЗ для каждого друга!)
+  const send = useChatSocket({
+    chatUrl: "http://localhost:4000",
+    token,
+    onMessage: handleSocketMessage,
   });
 
+  // При смене собеседника грузим историю и обновляем статус онлайн
   useEffect(() => {
     if (friend) {
       getChat(friend.id).then((res) => setMessages(res.data));
+      // Проверяем онлайн-статус собеседника
+      send({ type: "status", friendId: friend.id });
     }
     setIsTyping(false);
-    setOnline(false);
-  }, [friend]);
+    // setOnline(false);
+  }, [friend, send]);
 
+  // Скроллим вниз при новом сообщении
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -94,7 +106,7 @@ export default function ChatWindow({ myId, friend }) {
     e.target.value = "";
   };
 
-  // ===== Голосовое сообщение 
+  // ===== Голосовое сообщение
   const startRecording = async () => {
     if (isRecording) return;
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -120,12 +132,10 @@ export default function ChatWindow({ myId, friend }) {
     }
   };
 
-  
   const handleSend = async (e) => {
     e.preventDefault();
     let sent = false;
 
-    
     if (pendingAudio) {
       const file = new File([pendingAudio.blob], "voice-message.webm", {
         type: "audio/webm",
@@ -160,7 +170,6 @@ export default function ChatWindow({ myId, friend }) {
       sent = true;
     }
 
-
     if (pendingFile) {
       const formData = new FormData();
       formData.append("file", pendingFile.file);
@@ -192,7 +201,6 @@ export default function ChatWindow({ myId, friend }) {
       sent = true;
     }
 
-    
     if (text.trim()) {
       send({ type: "text", receiver_id: friend.id, text });
       setMessages((prev) => [
@@ -255,7 +263,9 @@ export default function ChatWindow({ myId, friend }) {
             title={online ? "Online" : "Offline"}
           ></span>
           <span className="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-200 to-teal-200 flex items-center justify-center text-lg font-bold text-slate-700 shadow">
-            {String(friend.username || friend.name || friend.id).slice(0, 2).toUpperCase()}
+            {String(friend.username || friend.name || friend.id)
+              .slice(0, 2)
+              .toUpperCase()}
           </span>
           <span className="font-bold text-lg text-slate-700 truncate">
             {friend.username || friend.name || friend.id}
